@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · GEBT.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">GEBT.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Linear"><span>Linear</span></a></li><li><a class="tocitem" href="#Static"><span>Static</span></a></li><li><a class="tocitem" href="#Steady-State"><span>Steady State</span></a></li><li><a class="tocitem" href="#Eigenvalue"><span>Eigenvalue</span></a></li><li><a class="tocitem" href="#Time-Marching"><span>Time Marching</span></a></li></ul></li><li><a class="tocitem" href="../library/">Library</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/byuflowlab/GEBT.jl/blob/master/docs/src/examples.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><ul><li><a href="#Examples">Examples</a></li><ul><li><a href="#Linear">Linear</a></li><li><a href="#Static">Static</a></li><ul><li><a href="#Cantilever-Subjected-to-a-Constant-Moment">Cantilever Subjected to a Constant Moment</a></li><li><a href="#Bending-of-a-Curved-Beam-in-3D-Space">Bending of a Curved Beam in 3D Space</a></li></ul><li><a href="#Steady-State">Steady State</a></li><li><a href="#Eigenvalue">Eigenvalue</a></li><li><a href="#Time-Marching">Time Marching</a></li></ul></ul><p>These examples show how to use the various analysis capabilities of GEBT.jl.  Some of the examples also provide a verification/validation for the implementation of geometrically exact beam theory in GEBT.jl.</p><h2 id="Linear"><a class="docs-heading-anchor" href="#Linear">Linear</a><a id="Linear-1"></a><a class="docs-heading-anchor-permalink" href="#Linear" title="Permalink"></a></h2><h2 id="Static"><a class="docs-heading-anchor" href="#Static">Static</a><a id="Static-1"></a><a class="docs-heading-anchor-permalink" href="#Static" title="Permalink"></a></h2><h3 id="Cantilever-Subjected-to-a-Constant-Moment"><a class="docs-heading-anchor" href="#Cantilever-Subjected-to-a-Constant-Moment">Cantilever Subjected to a Constant Moment</a><a id="Cantilever-Subjected-to-a-Constant-Moment-1"></a><a class="docs-heading-anchor-permalink" href="#Cantilever-Subjected-to-a-Constant-Moment" title="Permalink"></a></h3><p>This problem is a common benchmark problem for the geometrically nonlinear analysis of beams and has an analytical solution.</p><pre><code class="language-">
+using GEBT
+using Plots
+pyplot()
+
+L = 12 # inches
+h = w = 1 # inches
+E = 30e6 # lb/in^4 Young&#39;s Modulus
+
+A = h*w
+Iyy = w*h^3/12
+Izz = w^3*h/12
+
+# bending moment (applied at end)
+# note that solutions for λ &gt; 1.8 do not converge
+λ = [0.0, 0.4, 0.8, 1.2, 1.6, 1.8]
+m = pi*E*Iyy/L
+M = λ*m
+
+# create points
+nelem = 16
+x = range(0, L, length=nelem+1)
+y = zero(x)
+z = zero(x)
+points = [[x[i],y[i],z[i]] for i = 1:length(x)]
+
+# index of first and last endpoints of each beam element
+start = 1:nelem
+stop = 2:nelem+1
+
+# compliance matrix for each beam element
+compliance = fill(Diagonal([1/(E*A), 0, 0, 0, 1/(E*Iyy), 1/(E*Izz)]), nelem)
+
+# create assembly of interconnected nonlinear beams
+assembly = Assembly(points, start, stop, compliance=compliance)
+
+# pre-initialize system storage
+static = true
+keep_points = [1, nelem+1] # points that we request are included in the system of equations
+n_tf = 0 # number of time functions
+system = System(assembly, preserved_points, static, n_tf)
+
+# run an analysis for each prescribed bending moment
+
+states = Vector{AssemblyState{Float64}}(undef, length(M))
+
+for i = 1:length(M)
+
+    # create dictionary of prescribed conditions
+    prescribed_conditions = Dict(
+        # fixed left side
+        1 =&gt; PrescribedConditions(
+            force_dof = [false, false, false, false, false, false]
+            ),
+        # moment on right side
+        nelem+1 =&gt; PrescribedConditions(
+            follower = [0, 0, 0, 0, 0, M[i]]
+        )
+    )
+
+    static_analysis!(system, assembly, prescribed_conditions=prescribed_conditions)
+
+    states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
+
+end
+
+# analytical solution (ρ = E*I/M)
+analytical(x, ρ) = ifelse(ρ == Inf, zeros(3), [ρ*sin(x/ρ)-x, ρ*(1-cos(x/ρ)), 0])
+
+# Plot Results
+
+# set up the plot
+plot(
+    xlim = (-0.25, 1.1),
+    xticks = -0.25:0.25:1.0,
+    xlabel = &quot;x/L&quot;,
+    ylim = (-0.05, 0.8),
+    yticks = 0.0:0.2:0.8,
+    ylabel = &quot;y/L&quot;,
+    aspect_ratio = 1.0,
+    grid = false,
+    overwrite_figure=false
+    )
+
+# create dummy legend entries for GEBT and Analytical
+scatter!([NaN, NaN], [NaN, NaN], color=:black, label=&quot;GEBT&quot;)
+plot!([NaN, NaN], [NaN, NaN], color=:black, label=&quot;Analytical&quot;)
+
+# plot the data
+for i = 1:length(M)
+    # GEBT
+    x = [assembly.points[ipoint][1] + states[i].points[ipoint].u[1] for ipoint = 1:length(assembly.points)]
+    y = [assembly.points[ipoint][2] + states[i].points[ipoint].u[2] for ipoint = 1:length(assembly.points)]
+    scatter!(x/L, y/L, label=&quot;&quot;, color = i)
+
+    # Analytical
+    x0 = range(0, L, length=100)
+    deflection = analytical.(x0, E*Iyy/M[i])
+    x = (x0 + getindex.(deflection, 1))
+    y = getindex.(deflection, 2)
+    plot!(x/L, y/L, label=&quot;λ=$(λ[i])&quot;, color=i)
+end
+
+# show the plot
+plot!(show=true)
+
+savefig(&quot;cantilever.png&quot;); nothing # hide
+``
+
+![](cantilever.png)
+</code></pre><h3 id="Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Bending-of-a-Curved-Beam-in-3D-Space">Bending of a Curved Beam in 3D Space</a><a id="Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h3><p>This problem is also a common benchmark problem for the geometrically exact bending of nonlinear beams, but does not have an analytical solution.</p><pre><code class="language-none">
+# problem constants
+R = 100
+L = R*pi/4 # inches
+h = w = 1 # inches
+E = 1e7 # psi Young&#39;s Modulus
+ν = 0.0
+G = E/(2*(1+ν))
+
+# beam starting point and curvature
+r = [0, 0, 0]
+frame = [0 -1 0; 1 0 0; 0 0 1]
+k = [0, 0, -1/R]
+
+# cross section properties
+A = h*w
+Ay = A
+Az = A
+Iyy = w*h^3/12
+Izz = w^3*h/12
+J = Iyy + Izz
+
+# discretize the beam
+nelem = 16
+ΔL, xp, xm, Cab = discretize_beam(L, r, nelem, Cab=frame, k = k)
+
+# force
+P = 600 # lbs
+
+# index of left and right endpoints of each beam element
+pt1 = 1:nelem
+pt2 = 2:nelem+1
+
+# compliance matrix for each beam element
+compliance = fill(Diagonal([1/(E*A), 1/(G*Ay), 1/(G*Az), 1/(G*J), 1/(E*Iyy), 1/(E*Izz)]), nelem)
+
+# create assembly of interconnected nonlinear beams
+assembly = Assembly(xp, pt1, pt2, compliance=compliance, frames=Cab,
+    lengths=ΔL, midpoints=xm)
+
+# create dictionary of prescribed conditions
+prescribed_conditions = Dict(
+    # fixed left endpoint
+    1 =&gt; PrescribedConditions(
+        force_dof = [false, false, false, false, false, false]
+        ),
+    # force on right endpoint
+    nelem+1 =&gt; PrescribedConditions(
+        value = [0, 0, P, 0, 0, 0]
+    )
+)
+
+system, converged = static_analysis(assembly, prescribed_conditions=prescribed_conditions)
+
+state = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
+
+println(&quot;Tip Displacement: &quot;, state.points[end].u)
+println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)
+
+# write a file that can be visualized in ParaView
+write_vtk(&quot;curved&quot;, assembly, state)
+</code></pre><p><img src="../curved.png" alt/></p><p>The calculated tip displacements match those found by Bathe and Bolourch closely, thus verifying our GEBT implementation.</p><h2 id="Steady-State"><a class="docs-heading-anchor" href="#Steady-State">Steady State</a><a id="Steady-State-1"></a><a class="docs-heading-anchor-permalink" href="#Steady-State" title="Permalink"></a></h2><h2 id="Eigenvalue"><a class="docs-heading-anchor" href="#Eigenvalue">Eigenvalue</a><a id="Eigenvalue-1"></a><a class="docs-heading-anchor-permalink" href="#Eigenvalue" title="Permalink"></a></h2><h2 id="Time-Marching"><a class="docs-heading-anchor" href="#Time-Marching">Time Marching</a><a id="Time-Marching-1"></a><a class="docs-heading-anchor-permalink" href="#Time-Marching" title="Permalink"></a></h2></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Wednesday 22 July 2020 19:04">Wednesday 22 July 2020</span>. Using Julia version 1.3.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

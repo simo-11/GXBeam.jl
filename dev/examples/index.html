@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · GEBT.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">GEBT.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load"><span>Linear Analysis of a Cantilever Subjected to a Uniform Distributed Load</span></a></li><li><a class="tocitem" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><span>Linear Analysis of a Beam Under a Linear Distributed Load</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><span>Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><span>Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</span></a></li></ul></li><li><a class="tocitem" href="../library/">Library</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/byuflowlab/GEBT.jl/blob/master/docs/src/examples.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><p>These examples show how to use the various analysis capabilities of GEBT.jl.  Some of the examples also provide a verification/validation for the implementation of geometrically exact beam theory in GEBT.jl.</p><ul><li><a href="#Examples">Examples</a></li><ul><li><a href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Subjected to a Uniform Distributed Load</a></li><li><a href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a></li><li><a href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a></li><li><a href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a></li></ul></ul><h2 id="Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Subjected to a Uniform Distributed Load</a><a id="Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load" title="Permalink"></a></h2><pre><code class="language-">
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · GEBT.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">GEBT.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load"><span>Linear Analysis of a Cantilever Subjected to a Uniform Distributed Load</span></a></li><li><a class="tocitem" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><span>Linear Analysis of a Beam Under a Linear Distributed Load</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><span>Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><span>Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</span></a></li><li><a class="tocitem" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><span>Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</span></a></li></ul></li><li><a class="tocitem" href="../library/">Library</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/byuflowlab/GEBT.jl/blob/master/docs/src/examples.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><p>These examples show how to use the various analysis capabilities of GEBT.jl.  Some of the examples also provide a verification/validation for the implementation of geometrically exact beam theory in GEBT.jl.</p><ul><li><a href="#Examples">Examples</a></li><ul><li><a href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Subjected to a Uniform Distributed Load</a></li><li><a href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a></li><li><a href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a></li><li><a href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a></li><li><a href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a></li></ul></ul><h2 id="Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Subjected to a Uniform Distributed Load</a><a id="Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Cantilever-Subjected-to-a-Uniform-Distributed-Load" title="Permalink"></a></h2><pre><code class="language-">
 using GEBT, LinearAlgebra
 
 nelem = 12
@@ -284,4 +284,103 @@ println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)
 
 # write a file that can be visualized in ParaView
 write_vtk(&quot;curved&quot;, assembly, state)
-</code></pre><p><img src="../curved.png" alt/></p><p>The calculated tip displacements match those found by Bathe and Bolourch closely, thus verifying our GEBT implementation.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 23 July 2020 19:27">Thursday 23 July 2020</span>. Using Julia version 1.3.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre><p><img src="../curved.png" alt/></p><p>The calculated tip displacements match those found by Bathe and Bolourch closely, thus verifying our GEBT implementation.</p><h2 id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><a class="docs-heading-anchor" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a><a id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly" title="Permalink"></a></h2><pre><code class="language-julia">using GEBT, LinearAlgebra
+
+nelem = 20
+nelem_b1 = div(nelem, 2)
+nelem_b2 = div(nelem, 2)
+
+# beam 1
+L_b1 = sqrt(1 + 0.5^2)
+r_b1 = [0, -0.5, 0]
+s_b1, c_b1 = 0.5/L_b1, 1/L_b1
+frame_b1 = [c_b1 -s_b1 0; s_b1 c_b1 0; 0 0 1]
+lengths_b1, xp_b1, xm_b1, Cab_b1 = discretize_beam(L_b1, r_b1, nelem_b1, Cab=frame_b1)
+
+# beam 2
+L_b2 = sqrt(1 + 0.5^2)
+r_b2 = [1, 0.0, 0]
+s_b2, c_b2 = 0.5/L_b2, -1/L_b2
+frame_b2 = [c_b2 -s_b2 0; s_b2 c_b2 0; 0 0 1]
+lengths_b2, xp_b2, xm_b2, Cab_b2 = discretize_beam(L_b2, r_b2, nelem_b2, Cab=frame_b2)
+
+# combine elements and points into one array
+points = vcat(xp_b1, xp_b2[2:end])
+start = 1:nelem_b1 + nelem_b2
+stop = 2:nelem_b1 + nelem_b2 + 1
+lengths = vcat(lengths_b1, lengths_b2)
+midpoints = vcat(xm_b1, xm_b2)
+Cab = vcat(Cab_b1, Cab_b2)
+
+# cross-sections for both beams
+w = 0.1 # meters
+h = 0.05 # meters
+
+E = 70e9 # Pa
+ν = 0.35
+ρ = 2700 # kg/m^3
+
+# shear correction factors
+AR = w/h
+ky = 6/5 + (ν/(1+ν))^2*AR^-4*(1/5 - 18/(AR*pi^5)*sum([tanh(m*pi*AR)/m^5 for m = 1:1000]))
+kz = 6/5 + (ν/(1+ν))^2*AR^4*(1/5 - 18/(pi^5)*sum([tanh(n*pi*AR^-1)/n^5 for n = 1:1000]))
+
+A = h*w
+Ay = A/ky
+Az = A/kz
+Iyy = w*h^3/12
+Izz = w^3*h/12
+J = Iyy + Izz
+
+G = E/(2*(1+ν))
+
+compliance = fill(Diagonal([1/(E*A), 1/(G*Ay), 1/(G*Az), 1/(G*J), 1/(E*Iyy), 1/(E*Izz)]), nelem)
+
+minv = fill(Diagonal([ρ*A, ρ*A, ρ*A, ρ*J, ρ*Iyy, ρ*Izz])^-1, nelem)
+
+# create assembly
+assembly = Assembly(points, start, stop, compliance=compliance, minv=minv,
+    frames=Cab, lengths=lengths, midpoints=midpoints)
+
+# time
+dt = 0.001
+t = 0:dt:0.5
+nstep = length(t)
+
+# create dictionary of prescribed conditions
+prescribed_conditions = Dict(
+    # fixed endpoint on beam 1
+    1 =&gt; PrescribedConditions(dt, nstep=nstep, ux=0, uy=0, uz=0, theta_x=0, theta_y=0, theta_z=0),
+    # fixed endpoint on beam 2
+    nelem+1 =&gt; PrescribedConditions(dt, nstep=nstep, ux=0, uy=0, uz=0, theta_x=0, theta_y=0, theta_z=0),
+    # force applied on connected endpoint
+    nelem_b1+1 =&gt; PrescribedConditions(dt, nstep=nstep, Fz=(t)-&gt;1e5*sin(20*t))
+)
+
+system, history, converged = time_domain_analysis(assembly, dt,
+    prescribed_conditions=prescribed_conditions, nstep = nstep)
+
+system, λ, V, converged = eigenvalue_analysis(assembly,
+    prescribed_conditions=prescribed_conditions, nstep = nstep, nev = 50)
+
+Us = left_eigenvectors(system, λ, V)</code></pre><pre class="documenter-example-output">50×378 Array{Complex{Float64},2}:
+ -4.88403e-22-5.49819e-22im  …     -52294.6+6.13105e-9im
+ -4.89088e-22+5.50366e-22im        -52294.6-6.12744e-9im
+ -9.91462e-20+2.26719e-20im     -5.80742e-6+4.88928e5im 
+ -9.91447e-20-2.26813e-20im     -5.80762e-6-4.88928e5im 
+  2.27791e-20-3.89225e-20im        -74370.0-1.49116e-5im
+  2.27794e-20+3.89223e-20im  …     -74370.0+1.49117e-5im
+ -4.14133e-16+7.04952e-18im      -0.0427407+1.30228e7im 
+ -4.14133e-16-7.04818e-18im      -0.0427407-1.30228e7im 
+  -9.4289e-17-3.0879e-16im       -1.53901e7-0.0790504im 
+ -9.42894e-17+3.0879e-16im       -1.53901e7+0.0790504im 
+             ⋮               ⋱                          
+  4.73422e-16-9.92101e-18im         25.2834-8.35384e5im 
+ -1.12832e-13-2.16175e-12im        1.8506e8-21369.1im   
+ -1.12887e-13+2.16169e-12im        1.8506e8+21368.5im   
+ -2.53798e-13-4.30013e-15im        -2927.62-1.76551e8im 
+ -2.53798e-13+4.30013e-15im  …     -2927.62+1.76551e8im 
+ -1.21812e-16-1.40339e-17im         1.73476-1.9838e7im  
+ -1.21812e-16+1.40339e-17im         1.73476+1.9838e7im  
+  5.93315e-14+1.74314e-14im          1042.3+2.31235e8im 
+  5.93315e-14-1.74314e-14im          1042.3-2.31235e8im </pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 23 July 2020 19:29">Thursday 23 July 2020</span>. Using Julia version 1.3.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

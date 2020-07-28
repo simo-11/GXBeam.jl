@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · GEBT.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">GEBT.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load"><span>Linear Analysis of a Cantilever Partially Under a Uniform Distributed Load</span></a></li><li><a class="tocitem" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><span>Linear Analysis of a Beam Under a Linear Distributed Load</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><span>Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><span>Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><span>Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</span></a></li><li><a class="tocitem" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><span>Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</span></a></li></ul></li><li><a class="tocitem" href="../library/">Library</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/byuflowlab/GEBT.jl/blob/master/docs/src/examples.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><p>These examples show how to use the various analysis capabilities of GEBT.jl.  Some of the examples also provide a verification/validation for the implementation of geometrically exact beam theory in GEBT.jl.</p><ul><li><a href="#Examples">Examples</a></li><ul><li><a href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Partially Under a Uniform Distributed Load</a></li><li><a href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a></li><li><a href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a></li><li><a href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a></li><li><a href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a></li><li><a href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a></li></ul></ul><h2 id="Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Partially Under a Uniform Distributed Load</a><a id="Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load" title="Permalink"></a></h2><p><img src="../cantilever1-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Examples · GEBT.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">GEBT.jl</span></div><form class="docs-search" action="../search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li class="is-active"><a class="tocitem" href>Examples</a><ul class="internal"><li><a class="tocitem" href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load"><span>Linear Analysis of a Cantilever Partially Under a Uniform Distributed Load</span></a></li><li><a class="tocitem" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><span>Linear Analysis of a Beam Under a Linear Distributed Load</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><span>Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><span>Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</span></a></li><li><a class="tocitem" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><span>Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</span></a></li><li><a class="tocitem" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><span>Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</span></a></li></ul></li><li><a class="tocitem" href="../library/">Library</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Examples</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Examples</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/byuflowlab/GEBT.jl/blob/master/docs/src/examples.md" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples"><a class="docs-heading-anchor" href="#Examples">Examples</a><a id="Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Examples" title="Permalink"></a></h1><p>These examples show how to use the various analysis capabilities of GEBT.jl.  Some of the examples also provide a verification/validation for the implementation of geometrically exact beam theory in GEBT.jl.</p><ul><li><a href="#Examples">Examples</a></li><ul><li><a href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Partially Under a Uniform Distributed Load</a></li><li><a href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a></li><li><a href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a></li><li><a href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a></li><li><a href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a></li><li><a href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a></li></ul></ul><h2 id="Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load">Linear Analysis of a Cantilever Partially Under a Uniform Distributed Load</a><a id="Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Cantilever-Partially-Under-a-Uniform-Distributed-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam which is partially subjected to a uniform distributed load.</p><p><img src="../linear-cantilever-pudl-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 nelem = 12
 
@@ -38,10 +38,7 @@ end
 system, converged = static_analysis(assembly, prescribed_conditions=prescribed_conditions,
     distributed_loads=distributed_loads, linear=true)
 
-state = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)</code></pre><pre><code class="language-julia">using Plots
-pyplot()
-
-# Construct Analytical Solution
+state = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)</code></pre><pre class="documenter-example-output">AssemblyState{Float64,Array{GEBT.PointState{Float64},1},Array{GEBT.ElementState{Float64},1}}(GEBT.PointState{Float64}[GEBT.PointState{Float64}([0.0, 0.0, 2.9251843800000005e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.432470891378102e-13, 0.0, 2.6550497399996718e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.432470891378103e-13, 0.0, 2.3849150999996717e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.4324708913781017e-13, 0.0, 2.114780459999671e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([3.2279179329464127e-13, 0.0, 1.844645819999565e-6], [0.0, 3.6017952000000063e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([3.1370461783808417e-13, 0.0, 1.485315779999583e-6], [0.0, 3.584805600000032e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.872091453554048e-13, 0.0, 1.1310826199996346e-6], [0.0, 3.4998576000000784e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.351008276946231e-13, 0.0, 7.921400999997294e-7], [0.0, 3.2789928000001245e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([1.2792683579121455e-13, 0.0, 4.854778199998747e-7], [0.0, 2.8542528000001027e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([7.889938702376748e-14, 0.0, 2.895664949999392e-7], [0.0, 2.370049200000083e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([3.356898092832242e-14, 0.0, 1.3570442999998317e-7], [0.0, 1.7329392000000441e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([4.15917300600199e-15, 0.0, 3.535960499999922e-8], [0.0, 9.42922800000006e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, -399.9999999999999], [0.0, -199.99999999999997, 0.0])], GEBT.ElementState{Float64}[GEBT.ElementState{Float64}([0.0, 0.0, 2.7901170600000007e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 2.51998242e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 2.24984778e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.9797131399999997e-6], [0.0, 3.6017951999999995e-6, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.6649807999999997e-6], [0.0, 3.5933003999999993e-6, 0.0], [0.0, 0.0, -49.99999999999999], [0.0, -2.500000000000001, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.3081991999999997e-6], [0.0, 3.542331599999999e-6, 0.0], [0.0, 0.0, -150.0], [0.0, -12.499999999999998, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 9.616113599999997e-7], [0.0, 3.389425199999999e-6, 0.0], [0.0, 0.0, -249.99999999999994], [0.0, -32.499999999999986, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 6.388089599999998e-7], [0.0, 3.0666227999999997e-6, 0.0], [0.0, 0.0, -349.99999999999994], [0.0, -62.49999999999997, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 3.875221574999999e-7], [0.0, 2.6121509999999994e-6, 0.0], [0.0, 0.0, -399.9999999999999], [0.0, -94.99999999999997, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 2.1263546249999993e-7], [0.0, 2.0514941999999995e-6, 0.0], [0.0, 0.0, -399.9999999999999], [0.0, -124.99999999999997, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 8.553201749999997e-8], [0.0, 1.3379309999999995e-6, 0.0], [0.0, 0.0, -399.9999999999999], [0.0, -154.99999999999997, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.767980249999998e-8], [0.0, 4.7146139999999964e-7, 0.0], [0.0, 0.0, -399.9999999999999], [0.0, -184.99999999999997, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0])])</pre><p>We can construct the analytical solution for this problem by integrating from the fixed end of the cantilever.</p><pre><code class="language-julia"># construct analytical solution
 dx = 1e-6
 EI = 1/6.79584e-8
 x_a = 0.0:dx:1.0
@@ -53,10 +50,34 @@ slope_a .-= slope_a[end] # apply boundary condition
 deflection_a = cumsum(slope_a .* dx) # integrate to get deflection
 deflection_a .-= deflection_a[end] # apply boundary condition
 
-# change coordinate system of analytical solution
-M_a = -M_a
+# get elastic twist angle
+theta_a = -atan.(slope_a)
 
-# set up the plot
+# adjust coordinate system of the analytical solution to match the computational solution
+M_a = -M_a</code></pre><pre class="documenter-example-output">1000001-element Array{Float64,1}:
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+   -0.0
+    ⋮
+ -199.99769999299983
+ -199.99809999399983
+ -199.99849999499983
+ -199.99889999599984
+ -199.99929999699984
+ -199.99969999799984
+ -200.00009999899981
+ -200.00049999999982
+ -200.00090000099982</pre><p>Plotting the results reveals that the analytical and computational solutions are identical.</p><pre><code class="language-julia">using Plots
+pyplot()
+
+# deflection plot
 plot(
     xlim = (0.0, 1.0),
     xticks = 0.0:0.2:1.0,
@@ -68,27 +89,29 @@ plot(
     )
 
 x = [assembly.points[ipoint][1] + state.points[ipoint].u[1] for ipoint = 1:length(assembly.points)]
-y = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
+deflection = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
 plot!(x_a, deflection_a, label=&quot;Analytical&quot;)
-scatter!(x, y, label=&quot;GEBT&quot;)
+scatter!(x, deflection, label=&quot;GEBT&quot;)
 
 
+# elastic twist plot (euler angle)
 plot(
     xlim = (0.0, 1.0),
     xticks = 0.0:0.2:1.0,
     xlabel = &quot;x (m)&quot;,
     yticks = 0.0:5e-7:3.5e-6,
-    ylabel = &quot;Rotation Parameter \$\\theta_y\$&quot;,
+    ylabel = &quot;Rotation Parameter \$\\theta_y\$ (Euler Angle)&quot;,
     grid = false,
     overwrite_figure=false
     )
 
 x = [assembly.points[ipoint][1] + state.points[ipoint].u[1] for ipoint = 1:length(assembly.points)]
-y = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint = 1:length(assembly.points)]
-plot!(x_a, -atan.(slope_a), label=&quot;Analytical&quot;)
-scatter!(x, y, label=&quot;GEBT&quot;)
+theta = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint = 1:length(assembly.points)]
+plot!(x_a, theta_a, label=&quot;Analytical&quot;)
+scatter!(x, theta, label=&quot;GEBT&quot;)
 
 
+# bending moment plot
 plot(
     xlim = (0.0, 1.0),
     xticks = 0.0:0.2:1.0,
@@ -100,83 +123,9 @@ plot(
     )
 
 x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for ielem = 1:length(assembly.elements)]
-y = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
+M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label=&quot;Analytical&quot;)
-scatter!(x, y, label=&quot;GEBT&quot;)</code></pre><pre class="documenter-example-output">[ Info: Installing matplotlib via the Conda matplotlib package...
-[ Info: Running `conda install -q -y matplotlib` in root environment
-Collecting package metadata (current_repodata.json): ...working... done
-Solving environment: ...working... done
-
-## Package Plan ##
-
-  environment location: /home/runner/.julia/conda/3
-
-  added / updated specs:
-    - matplotlib
-
-
-The following packages will be downloaded:
-
-    package                    |            build
-    ---------------------------|-----------------
-    cycler-0.10.0              |           py37_0          13 KB
-    dbus-1.13.16               |       hb2f20db_0         501 KB
-    expat-2.2.9                |       he6710b0_2         156 KB
-    fontconfig-2.13.0          |       h9420a91_0         227 KB
-    freetype-2.10.2            |       h5ab3b9f_0         608 KB
-    glib-2.65.0                |       h3eb4bd4_0         2.9 MB
-    gst-plugins-base-1.14.0    |       hbbd80ab_1         4.8 MB
-    gstreamer-1.14.0           |       hb31296c_0         3.1 MB
-    icu-58.2                   |       he6710b0_3        10.5 MB
-    jpeg-9b                    |       h024ee3a_2         214 KB
-    kiwisolver-1.2.0           |   py37hfd86e86_0          84 KB
-    libpng-1.6.37              |       hbc83047_0         278 KB
-    libuuid-1.0.3              |       h1bed415_2          15 KB
-    libxcb-1.14                |       h7b6447c_0         505 KB
-    libxml2-2.9.10             |       he19cac6_1         1.2 MB
-    matplotlib-3.2.2           |                0          21 KB
-    matplotlib-base-3.2.2      |   py37hef1b27d_0         5.4 MB
-    pcre-8.44                  |       he6710b0_0         212 KB
-    pyparsing-2.4.7            |             py_0          65 KB
-    pyqt-5.9.2                 |   py37h05f1152_2         4.5 MB
-    python-dateutil-2.8.1      |             py_0         215 KB
-    qt-5.9.7                   |       h5867ecd_1        68.5 MB
-    sip-4.19.8                 |   py37hf484d3e_0         274 KB
-    tornado-6.0.4              |   py37h7b6447c_1         611 KB
-    ------------------------------------------------------------
-                                           Total:       104.7 MB
-
-The following NEW packages will be INSTALLED:
-
-  cycler             pkgs/main/linux-64::cycler-0.10.0-py37_0
-  dbus               pkgs/main/linux-64::dbus-1.13.16-hb2f20db_0
-  expat              pkgs/main/linux-64::expat-2.2.9-he6710b0_2
-  fontconfig         pkgs/main/linux-64::fontconfig-2.13.0-h9420a91_0
-  freetype           pkgs/main/linux-64::freetype-2.10.2-h5ab3b9f_0
-  glib               pkgs/main/linux-64::glib-2.65.0-h3eb4bd4_0
-  gst-plugins-base   pkgs/main/linux-64::gst-plugins-base-1.14.0-hbbd80ab_1
-  gstreamer          pkgs/main/linux-64::gstreamer-1.14.0-hb31296c_0
-  icu                pkgs/main/linux-64::icu-58.2-he6710b0_3
-  jpeg               pkgs/main/linux-64::jpeg-9b-h024ee3a_2
-  kiwisolver         pkgs/main/linux-64::kiwisolver-1.2.0-py37hfd86e86_0
-  libpng             pkgs/main/linux-64::libpng-1.6.37-hbc83047_0
-  libuuid            pkgs/main/linux-64::libuuid-1.0.3-h1bed415_2
-  libxcb             pkgs/main/linux-64::libxcb-1.14-h7b6447c_0
-  libxml2            pkgs/main/linux-64::libxml2-2.9.10-he19cac6_1
-  matplotlib         pkgs/main/linux-64::matplotlib-3.2.2-0
-  matplotlib-base    pkgs/main/linux-64::matplotlib-base-3.2.2-py37hef1b27d_0
-  pcre               pkgs/main/linux-64::pcre-8.44-he6710b0_0
-  pyparsing          pkgs/main/noarch::pyparsing-2.4.7-py_0
-  pyqt               pkgs/main/linux-64::pyqt-5.9.2-py37h05f1152_2
-  python-dateutil    pkgs/main/noarch::python-dateutil-2.8.1-py_0
-  qt                 pkgs/main/linux-64::qt-5.9.7-h5867ecd_1
-  sip                pkgs/main/linux-64::sip-4.19.8-py37hf484d3e_0
-  tornado            pkgs/main/linux-64::tornado-6.0.4-py37h7b6447c_1
-
-
-Preparing transaction: ...working... done
-Verifying transaction: ...working... done
-Executing transaction: ...working... done</pre><p><img src="../cantilever1-1.svg" alt/></p><p><img src="../cantilever1-2.svg" alt/></p><p><img src="../cantilever1-3.svg" alt/></p><h2 id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a><a id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load" title="Permalink"></a></h2><p>This example is taken from &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot; by Wenbin Yu.</p><p><img src="../beam1-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+scatter!(x, M, label=&quot;GEBT&quot;)</code></pre><p><img src="../linear-cantilever-pudl-1.svg" alt/></p><p><img src="../linear-cantilever-pudl-2.svg" alt/></p><p><img src="../linear-cantilever-pudl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a><a id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a beam which is clamped at one end and simply supported at the other end when subjected to a linear distributed load.</p><p><img src="../linear-overdetermined-ldl-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 nelem = 16
 
@@ -214,7 +163,37 @@ end
 system, converged = static_analysis(assembly, prescribed_conditions=prescribed_conditions,
     distributed_loads=distributed_loads, linear=true)
 
-state = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)</code></pre><pre><code class="language-julia">using Plots
+state = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)</code></pre><pre class="documenter-example-output">AssemblyState{Float64,Array{GEBT.PointState{Float64},1},Array{GEBT.ElementState{Float64},1}}(GEBT.PointState{Float64}[GEBT.PointState{Float64}([0.0, 0.0, 0.0], [0.0, -5.641078125000002e-7, 0.0], [0.0, 0.0, -100.26035024062172], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([4.4200754167889045e-15, 0.0, 3.4843573379517496e-8], [0.0, -5.508865356445317e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([3.604755383079805e-15, 0.0, 6.805068969726629e-8], [0.0, -5.117411865234381e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.5673907444456745e-15, 0.0, 9.804970207214397e-8], [0.0, -4.482272094726568e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([1.5265566588595902e-15, 0.0, 1.2339858398437519e-7], [0.0, -3.629370117187504e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([6.418476861114186e-16, 0.0, 1.4284973945617684e-7], [0.0, -2.594999633789064e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([1.0408340855860843e-16, 0.0, 1.554148132324219e-7], [0.0, -1.4258239746093755e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.42861286636753e-17, 0.0, 1.6042950096130375e-7], [0.0, -1.7887609863281248e-8, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([4.40619762898109e-16, 0.0, 1.57618359375e-7], [0.0, 1.0784414062499991e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([1.2177758801357186e-15, 0.0, 1.471596164703368e-7], [0.0, 2.2683563232421853e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.1267709815475655e-15, 0.0, 1.2974998168945283e-7], [0.0, 3.3027268066406217e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.8831104170734534e-15, 0.0, 1.0666945610046339e-7], [0.0, 4.083041381835935e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([3.1155633628543455e-15, 0.0, 7.984614257812448e-8], [0.0, 4.500418945312501e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.6367796834847468e-15, 0.0, 5.192105598449666e-8], [0.0, 4.435608764648441e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([1.4467593789646571e-15, 0.0, 2.6312933349609213e-8], [0.0, 3.7589904785156294e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([2.185751579730777e-16, 0.0, 7.2830440521240134e-9], [0.0, 2.3305740966796885e-7, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.PointState{Float64}([0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, -399.7396497593783], [0.0, -66.40625, 0.0])], GEBT.ElementState{Float64}[GEBT.ElementState{Float64}([0.0, 0.0, 1.7421786689758305e-8], [0.0, -5.574971740722658e-7, 0.0], [0.0, 0.0, 99.60937500000001], [0.0, 3.1127929687500004, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 5.1447131538391124e-8], [0.0, -5.313138610839845e-7, 0.0], [0.0, 0.0, 95.70312500000001], [0.0, 9.216308593750002, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 8.30501958847046e-8], [0.0, -4.79984197998047e-7, 0.0], [0.0, 0.0, 87.89062500000001], [0.0, 14.953613281250002, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.107241430282593e-7], [0.0, -4.055821105957032e-7, 0.0], [0.0, 0.0, 76.17187500000001], [0.0, 20.080566406250004, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.331241617202759e-7], [0.0, -3.112184875488282e-7, 0.0], [0.0, 0.0, 60.54687500000001], [0.0, 24.353027343750004, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.4913227634429934e-7], [0.0, -2.010411804199219e-7, 0.0], [0.0, 0.0, 41.01562500000001], [0.0, 27.526855468750004, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.5792215709686281e-7], [0.0, -8.023500366210939e-8, 0.0], [0.0, 0.0, 17.57812500000001], [0.0, 29.35791015625, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.590239301681519e-7], [0.0, 4.497826538085939e-8, 0.0], [0.0, 0.0, -9.765624999999991], [0.0, 29.60205078125, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.5238898792266847e-7], [0.0, 1.673398864746094e-7, 0.0], [0.0, 0.0, -41.015625], [0.0, 28.01513671875, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.3845479907989502e-7], [0.0, 2.7855415649414066e-7, 0.0], [0.0, 0.0, -76.171875], [0.0, 24.35302734375, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.1820971889495849e-7], [0.0, 3.692884094238281e-7, 0.0], [0.0, 0.0, -115.234375], [0.0, 18.37158203125, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 9.325779933929443e-8], [0.0, 4.2917301635742186e-7, 0.0], [0.0, 0.0, -158.203125], [0.0, 9.82666015625, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 6.588359928131103e-8], [0.0, 4.468013854980469e-7, 0.0], [0.0, 0.0, -205.078125], [0.0, -1.52587890625, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 3.911699466705322e-8], [0.0, 4.097299621582031e-7, 0.0], [0.0, 0.0, -255.859375], [0.0, -15.930175781250004, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 1.67979887008667e-8], [0.0, 3.0447822875976565e-7, 0.0], [0.0, 0.0, -310.546875], [0.0, -33.63037109375, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]), GEBT.ElementState{Float64}([0.0, 0.0, 3.6415220260620117e-9], [0.0, 1.1652870483398437e-7, 0.0], [0.0, 0.0, -369.140625], [0.0, -54.87060546875, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0])])</pre><p>An analytical solution to this over-determined problem can be found using the method of superposition using the analytical solutions to a cantilever with a linearly distributed load and a cantilever with an end load.</p><pre><code class="language-julia"># construct analytical solution
+EI = 1/6.79584e-8
+x_a = range(0.0, 1.0, length=1000)
+w_a = @. 1000*(1-x_a)^2/(120*EI)*(4 - 8*(1-x_a) + 5*(1-x_a)^2 - (1-x_a)^3)
+slope_a = @. -1000*(1-x_a)/(120*EI)*(8 - 24*(1-x_a) + 20*(1-x_a)^2 - 5*(1-x_a)^3)
+M_a = @. 1000/120*(8 - 48*(1-x_a) + 60*(1-x_a)^2 - 20*(1-x_a)^3)
+
+theta_a = -atan.(slope_a)
+
+# adjust coordinate system of analytical solution
+M_a = -M_a</code></pre><pre class="documenter-example-output">1000-element Array{Float64,1}:
+  -0.0
+   0.10009993293245147
+   0.20019886285880992
+   0.3002957867733377
+   0.40038970166958643
+   0.5004796045419665
+   0.6005644923842368
+   0.7006433621903934
+   0.8007152109546094
+   0.900779035670644
+   ⋮
+ -63.49544196974546
+ -63.88835559895175
+ -64.28226421012003
+ -64.67716880625619
+ -65.07307039036631
+ -65.46996996545646
+ -65.86786853453252
+ -66.26676710060063
+ -66.66666666666667</pre><p>Plotting the results reveals that the analytical and computational solutions are identical.</p><pre><code class="language-julia">using Plots
 pyplot()
 
 # set up the plot
@@ -230,23 +209,26 @@ plot(
     )
 
 x = [assembly.points[ipoint][1] + state.points[ipoint].u[1] for ipoint = 1:length(assembly.points)]
-y = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
-plot!(x, y, markershape=:circle, label=&quot;&quot;)
+deflection = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
+plot!(x_a, w_a, label=&quot;Analytical&quot;)
+scatter!(x, deflection, label=&quot;GEBT&quot;)
 
 
 plot(
     xlim = (0.0, 1.0),
     xticks = 0.0:0.2:1.0,
     xlabel = &quot;x (m)&quot;,
+    ylim = (-6e-7,Inf),
     yticks = -6e-7:2e-7:4e-7,
-    ylabel = &quot;Rotation Parameter \$\\theta_2\$&quot;,
+    ylabel = &quot;Rotation Parameter \$\\theta_y\$ (Euler Angle)&quot;,
     grid = false,
     overwrite_figure=false
     )
 
 x = [assembly.points[ipoint][1] + state.points[ipoint].u[1] for ipoint = 1:length(assembly.points)]
-y = [state.points[ipoint].theta[2] for ipoint = 1:length(assembly.points)]
-plot!(x, y, markershape=:circle, label=&quot;&quot;)
+theta = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint = 1:length(assembly.points)]
+plot!(x_a, theta_a, label=&quot;Analytical&quot;)
+scatter!(x, theta, label=&quot;GEBT&quot;)
 
 
 plot(
@@ -260,8 +242,9 @@ plot(
     )
 
 x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for ielem = 1:length(assembly.elements)]
-y = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
-plot!(x, y, markershape=:circle, label=&quot;&quot;)</code></pre><p><img src="../beam1-1.svg" alt/></p><p><img src="../beam1-2.svg" alt/></p><p><img src="../beam1-3.svg" alt/></p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load" title="Permalink"></a></h2><p>This example is taken from &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot; by Wenbin Yu.</p><p><img src="../cantilever-tipload-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
+plot!(x_a, M_a, label=&quot;Analytical&quot;)
+scatter!(x, M, label=&quot;GEBT&quot;)</code></pre><p><img src="../linear-overdetermined-ldl-1.svg" alt/></p><p><img src="../linear-overdetermined-ldl-2.svg" alt/></p><p><img src="../linear-overdetermined-ldl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip load.</p><p><img src="../cantilever-tipforce-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 L = 1
 EI = 1e6
@@ -312,8 +295,26 @@ for i = 1:length(P)
 
     states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
 
-end</code></pre><pre><code class="language-julia">using Plots
+end</code></pre><p>The analytical solution to this problem has been presented by several authors.  Here we follow the solution by H. J. Barten in &quot;On the Deflection of a Cantilever Beam&quot;, after incorporating the corrections they submitted for finding the tip angle.</p><pre><code class="language-">using Elliptic
+
+δ = range(pi/4, pi/2, length=10^5)[2:end-1]
+
+k = @. cos(pi/4)/sin(δ)
+λ_a = @. (Elliptic.F(pi/2, k^2) - Elliptic.F(δ,  k^2))^2
+
+θ_a = @. 2*(pi/4 - acos(k))
+
+ξ_a = @. sqrt(2*sin(θ_a)/λ_a) .- 1
+
+η_a = @. 1-2/sqrt(λ_a)*(Elliptic.E(pi/2, k^2) - Elliptic.E(δ, k^2))
+
+nothing #hide</code></pre><p>Plotting the results reveals that the analytical and computational solutions are identical.</p><pre><code class="language-">using Plots
 pyplot()
+
+u = [states[i].points[end].u[1] for i = 1:length(P)]
+θ = [states[i].points[end].theta[2] for i = 1:length(P)]
+w = [states[i].points[end].u[3] for i = 1:length(P)]
+
 
 # set up the plot
 plot(
@@ -327,13 +328,22 @@ plot(
     overwrite_figure=false
     )
 
-u = [states[i].points[end].u[1] for i = 1:length(P)]
-θ = [states[i].points[end].theta[2] for i = 1:length(P)]
-w = [states[i].points[end].u[3] for i = 1:length(P)]
+plot!([Inf], [Inf], color=:black, label=&quot;Analytical&quot;)
+scatter!([Inf], [Inf], color=:black, label=&quot;GEBT&quot;)
+plot!([Inf], [Inf], color=1, label=&quot;Vertical \$\\left(w/L\\right)\$&quot;)
+plot!([Inf], [Inf], color=2, label=&quot;Horizontal \$\\left(-u/L\\right)\$&quot;)
+plot!([Inf], [Inf], color=3, label=&quot;\$ \\theta/(\\pi/2) \$&quot;)
 
-plot!(λ, w/L, markershape=:circle, label=&quot;Vertical \$\\left(w/L\\right)\$&quot;)
-plot!(λ, -u/L, markershape=:circle, label=&quot;Horizontal \$\\left(-u/L\\right)\$&quot;)
-plot!(λ, -4*atan.(θ/(2*pi)), markershape=:circle, label=&quot;Rotational \$\\left(-4\\tan^{-1}\\left(\\frac{\\theta_2}{2\\pi}\\right)\\right)\$&quot;)</code></pre><p><img src="../cantilever-tipload.svg" alt/></p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment" title="Permalink"></a></h2><p>This example is a common benchmark problem for the geometrically nonlinear analysis of beams and has an analytical solution.</p><p><img src="../cantilever2-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+plot!(λ_a, η_a, color=1, label=&quot;&quot;)
+scatter!(λ, w/L, color=1, label=&quot;&quot;)
+
+plot!(λ_a, -ξ_a, color=2, label=&quot;&quot;)
+scatter!(λ, -u/L, color=2, label=&quot;&quot;)
+
+plot!(λ_a, θ_a*2/pi, color=3, label=&quot;&quot;)
+scatter!(λ, -4*atan.(θ/4)*2/pi, color=3, label=&quot;&quot;)
+
+savefig(&quot;cantilever-tipforce.svg&quot;); nothing #hide</code></pre><p><img src="cantilever-tipforce.svg" alt/></p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip moment.  This is a common benchmark problem for the geometrically nonlinear analysis of beams.</p><p><img src="../cantilever-tipmoment-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 L = 12 # inches
 h = w = 1 # inches
@@ -389,11 +399,9 @@ for i = 1:length(M)
 
     states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
 
-end</code></pre><pre><code class="language-julia">using Plots
+end</code></pre><p>This problem has a simple analytical solution, which we obtained from &quot;Study of the Geometric Stiffening Effect: Comparison of Different Formulations&quot; by Juana M. Mayo, Daniel Garcia-Vallejo, and Jaime Dominguez.</p><pre><code class="language-julia"># analytical solution (ρ = E*I/M)
+analytical(x, ρ) = ifelse(ρ == Inf, zeros(3), [ρ*sin(x/ρ)-x, ρ*(1-cos(x/ρ)), 0])</code></pre><pre class="documenter-example-output">analytical (generic function with 1 method)</pre><p>Plotting the results reveals that the analytical and computational results are identical.</p><pre><code class="language-julia">using Plots
 pyplot()
-
-# analytical solution (ρ = E*I/M)
-analytical(x, ρ) = ifelse(ρ == Inf, zeros(3), [ρ*sin(x/ρ)-x, ρ*(1-cos(x/ρ)), 0])
 
 # set up the plot
 plot(
@@ -425,7 +433,7 @@ for i = 1:length(M)
     x = (x0 + getindex.(deflection, 1))
     y = getindex.(deflection, 2)
     plot!(x/L, y/L, label=&quot;λ=$(λ[i])&quot;, color=i)
-end</code></pre><p><img src="../cantilever2.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams, but does not have an analytical solution.</p><p><img src="../curved-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+end</code></pre><p><img src="../cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 # problem constants
 R = 100
@@ -482,8 +490,8 @@ println(&quot;Tip Displacement: &quot;, state.points[end].u)
 println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)
 
 # write a file that can be visualized in ParaView
-write_vtk(&quot;curved&quot;, assembly, state)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758566, -23.54530333698803, 53.45800757548927]
-Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]</pre><p><img src="../curved.png" alt/></p><p>The calculated tip displacements match those reported by Bathe and Bolourch in &quot;Large Displacement Analysis of Three-Dimensional Beam Structures&quot; closely, thus verifying our GEBT implementation.</p><h2 id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><a class="docs-heading-anchor" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a><a id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly" title="Permalink"></a></h2><pre><code class="language-julia">using GEBT, LinearAlgebra
+write_vtk(&quot;cantilever-curved&quot;, assembly, state)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758567, -23.545303336988034, 53.458007575489276]
+Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]</pre><p><img src="cantilever-curved.png" alt/></p><p>The calculated tip displacements match those reported by Bathe and Bolourch in &quot;Large Displacement Analysis of Three-Dimensional Beam Structures&quot; closely, thus verifying our GEBT implementation.</p><h2 id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><a class="docs-heading-anchor" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a><a id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly" title="Permalink"></a></h2><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 nelem = 20
 nelem_b1 = div(nelem, 2)
@@ -562,4 +570,4 @@ system, history, converged = time_domain_analysis(assembly, dt,
 system, λ, V, converged = eigenvalue_analysis(assembly,
     prescribed_conditions=prescribed_conditions, nstep = nstep, nev = 50)
 
-Us = left_eigenvectors(system, λ, V)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 27 July 2020 02:00">Monday 27 July 2020</span>. Using Julia version 1.4.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+Us = left_eigenvectors(system, λ, V)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 28 July 2020 16:50">Tuesday 28 July 2020</span>. Using Julia version 1.4.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -389,7 +389,10 @@ for i = 1:length(M)
     x = (x0 + getindex.(deflection, 1))
     y = getindex.(deflection, 2)
     plot!(x/L, y/L, label=&quot;λ=$(λ[i])&quot;, color=i)
-end</code></pre><p><img src="../cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+end</code></pre><pre class="documenter-example-output">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
+└ @ none:5
+┌ Warning: Assignment to `y` in soft scope is ambiguous because a global variable by the same name exists: `y` will be treated as a new local. Disambiguate by using `local y` to suppress this warning or `global y` to assign to the existing global variable.
+└ @ none:6</pre><p><img src="../cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 # problem constants
 R = 100
@@ -446,7 +449,7 @@ println(&quot;Tip Displacement: &quot;, state.points[end].u)
 println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)
 
 # write a file that can be visualized in ParaView
-write_vtk(&quot;cantilever-curved&quot;, assembly, state)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758567, -23.545303336988034, 53.458007575489276]
+write_vtk(&quot;cantilever-curved&quot;, assembly, state)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758567, -23.54530333698803, 53.458007575489276]
 Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]</pre><p><img src="../cantilever-curved.png" alt/></p><p>The calculated tip displacements match those reported by Bathe and Bolourch in &quot;Large Displacement Analysis of Three-Dimensional Beam Structures&quot; closely, thus verifying our GEBT implementation.</p><h2 id="Rotating-Beam-with-a-Swept-Tip"><a class="docs-heading-anchor" href="#Rotating-Beam-with-a-Swept-Tip">Rotating Beam with a Swept Tip</a><a id="Rotating-Beam-with-a-Swept-Tip-1"></a><a class="docs-heading-anchor-permalink" href="#Rotating-Beam-with-a-Swept-Tip" title="Permalink"></a></h2><p>In this example we analyze a rotating beam with a swept tip.  The parameters for this example come from &quot;Finite element solution of nonlinear intrinsic equations for curved composite beams&quot; by Hodges, Shang, and Cesnik.</p><p><img src="../rotating-beam-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 sweep = 45 * pi/180
@@ -665,7 +668,60 @@ for i = 1:length(sweep)
         eigenstates[i,j] = [AssemblyState(system, assembly, V[:,k];
             prescribed_conditions=prescribed_conditions) for k = 1:nev]
     end
-end</code></pre><p>We can correlate each eigenmode by taking advantage of the fact that left and right eigenvectors satisfy the following relationships:</p><div>\[\begin{aligned}
+end</code></pre><pre class="documenter-example-output">┌ Warning: Assignment to `L_b1` in soft scope is ambiguous because a global variable by the same name exists: `L_b1` will be treated as a new local. Disambiguate by using `local L_b1` to suppress this warning or `global L_b1` to assign to the existing global variable.
+└ @ none:3
+┌ Warning: Assignment to `r_b1` in soft scope is ambiguous because a global variable by the same name exists: `r_b1` will be treated as a new local. Disambiguate by using `local r_b1` to suppress this warning or `global r_b1` to assign to the existing global variable.
+└ @ none:4
+┌ Warning: Assignment to `nelem_b1` in soft scope is ambiguous because a global variable by the same name exists: `nelem_b1` will be treated as a new local. Disambiguate by using `local nelem_b1` to suppress this warning or `global nelem_b1` to assign to the existing global variable.
+└ @ none:5
+┌ Warning: Assignment to `lengths_b1` in soft scope is ambiguous because a global variable by the same name exists: `lengths_b1` will be treated as a new local. Disambiguate by using `local lengths_b1` to suppress this warning or `global lengths_b1` to assign to the existing global variable.
+└ @ none:6
+┌ Warning: Assignment to `xp_b1` in soft scope is ambiguous because a global variable by the same name exists: `xp_b1` will be treated as a new local. Disambiguate by using `local xp_b1` to suppress this warning or `global xp_b1` to assign to the existing global variable.
+└ @ none:6
+┌ Warning: Assignment to `xm_b1` in soft scope is ambiguous because a global variable by the same name exists: `xm_b1` will be treated as a new local. Disambiguate by using `local xm_b1` to suppress this warning or `global xm_b1` to assign to the existing global variable.
+└ @ none:6
+┌ Warning: Assignment to `Cab_b1` in soft scope is ambiguous because a global variable by the same name exists: `Cab_b1` will be treated as a new local. Disambiguate by using `local Cab_b1` to suppress this warning or `global Cab_b1` to assign to the existing global variable.
+└ @ none:6
+┌ Warning: Assignment to `L_b2` in soft scope is ambiguous because a global variable by the same name exists: `L_b2` will be treated as a new local. Disambiguate by using `local L_b2` to suppress this warning or `global L_b2` to assign to the existing global variable.
+└ @ none:9
+┌ Warning: Assignment to `r_b2` in soft scope is ambiguous because a global variable by the same name exists: `r_b2` will be treated as a new local. Disambiguate by using `local r_b2` to suppress this warning or `global r_b2` to assign to the existing global variable.
+└ @ none:10
+┌ Warning: Assignment to `nelem_b2` in soft scope is ambiguous because a global variable by the same name exists: `nelem_b2` will be treated as a new local. Disambiguate by using `local nelem_b2` to suppress this warning or `global nelem_b2` to assign to the existing global variable.
+└ @ none:11
+┌ Warning: Assignment to `cs` in soft scope is ambiguous because a global variable by the same name exists: `cs` will be treated as a new local. Disambiguate by using `local cs` to suppress this warning or `global cs` to assign to the existing global variable.
+└ @ none:12
+┌ Warning: Assignment to `ss` in soft scope is ambiguous because a global variable by the same name exists: `ss` will be treated as a new local. Disambiguate by using `local ss` to suppress this warning or `global ss` to assign to the existing global variable.
+└ @ none:12
+┌ Warning: Assignment to `frame_b2` in soft scope is ambiguous because a global variable by the same name exists: `frame_b2` will be treated as a new local. Disambiguate by using `local frame_b2` to suppress this warning or `global frame_b2` to assign to the existing global variable.
+└ @ none:13
+┌ Warning: Assignment to `lengths_b2` in soft scope is ambiguous because a global variable by the same name exists: `lengths_b2` will be treated as a new local. Disambiguate by using `local lengths_b2` to suppress this warning or `global lengths_b2` to assign to the existing global variable.
+└ @ none:14
+┌ Warning: Assignment to `xp_b2` in soft scope is ambiguous because a global variable by the same name exists: `xp_b2` will be treated as a new local. Disambiguate by using `local xp_b2` to suppress this warning or `global xp_b2` to assign to the existing global variable.
+└ @ none:14
+┌ Warning: Assignment to `xm_b2` in soft scope is ambiguous because a global variable by the same name exists: `xm_b2` will be treated as a new local. Disambiguate by using `local xm_b2` to suppress this warning or `global xm_b2` to assign to the existing global variable.
+└ @ none:14
+┌ Warning: Assignment to `Cab_b2` in soft scope is ambiguous because a global variable by the same name exists: `Cab_b2` will be treated as a new local. Disambiguate by using `local Cab_b2` to suppress this warning or `global Cab_b2` to assign to the existing global variable.
+└ @ none:14
+┌ Warning: Assignment to `nelem` in soft scope is ambiguous because a global variable by the same name exists: `nelem` will be treated as a new local. Disambiguate by using `local nelem` to suppress this warning or `global nelem` to assign to the existing global variable.
+└ @ none:17
+┌ Warning: Assignment to `points` in soft scope is ambiguous because a global variable by the same name exists: `points` will be treated as a new local. Disambiguate by using `local points` to suppress this warning or `global points` to assign to the existing global variable.
+└ @ none:18
+┌ Warning: Assignment to `start` in soft scope is ambiguous because a global variable by the same name exists: `start` will be treated as a new local. Disambiguate by using `local start` to suppress this warning or `global start` to assign to the existing global variable.
+└ @ none:19
+┌ Warning: Assignment to `stop` in soft scope is ambiguous because a global variable by the same name exists: `stop` will be treated as a new local. Disambiguate by using `local stop` to suppress this warning or `global stop` to assign to the existing global variable.
+└ @ none:20
+┌ Warning: Assignment to `lengths` in soft scope is ambiguous because a global variable by the same name exists: `lengths` will be treated as a new local. Disambiguate by using `local lengths` to suppress this warning or `global lengths` to assign to the existing global variable.
+└ @ none:21
+┌ Warning: Assignment to `midpoints` in soft scope is ambiguous because a global variable by the same name exists: `midpoints` will be treated as a new local. Disambiguate by using `local midpoints` to suppress this warning or `global midpoints` to assign to the existing global variable.
+└ @ none:22
+┌ Warning: Assignment to `Cab` in soft scope is ambiguous because a global variable by the same name exists: `Cab` will be treated as a new local. Disambiguate by using `local Cab` to suppress this warning or `global Cab` to assign to the existing global variable.
+└ @ none:23
+┌ Warning: Assignment to `compliance` in soft scope is ambiguous because a global variable by the same name exists: `compliance` will be treated as a new local. Disambiguate by using `local compliance` to suppress this warning or `global compliance` to assign to the existing global variable.
+└ @ none:25
+┌ Warning: Assignment to `mass` in soft scope is ambiguous because a global variable by the same name exists: `mass` will be treated as a new local. Disambiguate by using `local mass` to suppress this warning or `global mass` to assign to the existing global variable.
+└ @ none:27
+┌ Warning: Assignment to `assembly` in soft scope is ambiguous because a global variable by the same name exists: `assembly` will be treated as a new local. Disambiguate by using `local assembly` to suppress this warning or `global assembly` to assign to the existing global variable.
+└ @ none:30</pre><p>We can correlate each eigenmode by taking advantage of the fact that left and right eigenvectors satisfy the following relationships:</p><div>\[\begin{aligned}
 u^H M v &amp;= 1 &amp;\text{if \(u\) and \(v\) correspond to the same eigenmode} \\
 u^H M v &amp;= 0 &amp;\text{if \(u\) and \(v\) correspond to different eigenmodes}
 \end{aligned}\]</div><pre><code class="language-julia"># set previous left eigenvector matrix
@@ -811,4 +867,4 @@ system, history, converged = time_domain_analysis(assembly, dt,
 system, λ, V, converged = eigenvalue_analysis(assembly,
     prescribed_conditions=prescribed_conditions, nstep = nstep, nev = 50)
 
-Us = left_eigenvectors(system, λ, V)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 3 August 2020 19:44">Monday 3 August 2020</span>. Using Julia version 1.4.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+Us = left_eigenvectors(system, λ, V)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 3 August 2020 19:52">Monday 3 August 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

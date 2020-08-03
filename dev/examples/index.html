@@ -389,10 +389,7 @@ for i = 1:length(M)
     x = (x0 + getindex.(deflection, 1))
     y = getindex.(deflection, 2)
     plot!(x/L, y/L, label=&quot;λ=$(λ[i])&quot;, color=i)
-end</code></pre><pre class="documenter-example-output">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
-└ @ none:5
-┌ Warning: Assignment to `y` in soft scope is ambiguous because a global variable by the same name exists: `y` will be treated as a new local. Disambiguate by using `local y` to suppress this warning or `global y` to assign to the existing global variable.
-└ @ none:6</pre><p><img src="../cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
+end</code></pre><p><img src="../cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 # problem constants
 R = 100
@@ -449,7 +446,7 @@ println(&quot;Tip Displacement: &quot;, state.points[end].u)
 println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)
 
 # write a file that can be visualized in ParaView
-write_vtk(&quot;cantilever-curved&quot;, assembly, state)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758569, -23.545303336988038, 53.45800757548929]
+write_vtk(&quot;cantilever-curved&quot;, assembly, state)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758567, -23.545303336988034, 53.458007575489276]
 Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]</pre><p><img src="../cantilever-curved.png" alt/></p><p>The calculated tip displacements match those reported by Bathe and Bolourch in &quot;Large Displacement Analysis of Three-Dimensional Beam Structures&quot; closely, thus verifying our GEBT implementation.</p><h2 id="Rotating-Beam-with-a-Swept-Tip"><a class="docs-heading-anchor" href="#Rotating-Beam-with-a-Swept-Tip">Rotating Beam with a Swept Tip</a><a id="Rotating-Beam-with-a-Swept-Tip-1"></a><a class="docs-heading-anchor-permalink" href="#Rotating-Beam-with-a-Swept-Tip" title="Permalink"></a></h2><p>In this example we analyze a rotating beam with a swept tip.  The parameters for this example come from &quot;Finite element solution of nonlinear intrinsic equations for curved composite beams&quot; by Hodges, Shang, and Cesnik.</p><p><img src="../rotating-beam-drawing.svg" alt/></p><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 sweep = 45 * pi/180
@@ -602,8 +599,7 @@ theta_z_nl = [4*atan(nonlinear_states[i].points[end].theta[3]/4) for i = 1:lengt
 theta_z_l = [4*atan(linear_states[i].points[end].theta[3]/4) for i = 1:length(rpm)]
 
 plot!(rpm, theta_z_nl, label=&quot;Nonlinear&quot;)
-plot!(rpm, theta_z_l, label=&quot;Linear&quot;)</code></pre><p><img src="../rotating-beam-1.svg" alt/> <img src="../rotating-beam-2.svg" alt/> <img src="../rotating-beam-3.svg" alt/></p><p>We will now compute the eigenvalues of this system for a range of sweep angles and and angular speeds.</p><pre><code class="language-">
-sweep = (0:5:45) * pi/180
+plot!(rpm, theta_z_l, label=&quot;Linear&quot;)</code></pre><p><img src="../rotating-beam-1.svg" alt/> <img src="../rotating-beam-2.svg" alt/> <img src="../rotating-beam-3.svg" alt/></p><p>We will now compute the eigenvalues of this system for a range of sweep angles and and angular speeds.</p><pre><code class="language-julia">sweep = (0:5:45) * pi/180
 rpm = [0, 500, 750]
 nev = 30
 
@@ -669,13 +665,10 @@ for i = 1:length(sweep)
         eigenstates[i,j] = [AssemblyState(system, assembly, V[:,k];
             prescribed_conditions=prescribed_conditions) for k = 1:nev]
     end
-end
-
-nothing #hide</code></pre><p>We can correlate each eigenmode by taking advantage of the fact that left and right eigenvectors satisfy the following relationships:</p><div>\[\begin{aligned}
+end</code></pre><p>We can correlate each eigenmode by taking advantage of the fact that left and right eigenvectors satisfy the following relationships:</p><div>\[\begin{aligned}
 u^H M v &amp;= 1 &amp;\text{if \(u\) and \(v\) correspond to the same eigenmode} \\
 u^H M v &amp;= 0 &amp;\text{if \(u\) and \(v\) correspond to different eigenmodes}
-\end{aligned}\]</div><pre><code class="language-">
-# set previous left eigenvector matrix
+\end{aligned}\]</div><pre><code class="language-julia"># set previous left eigenvector matrix
 U_p = copy(U[1,1])
 
 for j = 1:length(rpm)
@@ -720,7 +713,6 @@ for k = 1:length(indices)
     end
 
     plot!(show=true)
-    savefig(&quot;rotating-beam-frequencies-$(k).svg&quot;) #hide
 end
 
 names = [&quot;1T/5B&quot;, &quot;5B/1T&quot;, &quot;4B/1T&quot;]
@@ -740,13 +732,7 @@ for k = 1:length(indices)
     plot!(sweep*180/pi, frequency[indices[k]][:,end], label=names[k])
 end
 
-plot!(show=true)
-
-savefig(&quot;rotating-beam-frequencies-4.svg&quot;); nothing #hide
-
-nothing #hide</code></pre><p><img src="rotating-beam-frequencies-1.svg" alt/> <img src="rotating-beam-frequencies-2.svg" alt/> <img src="rotating-beam-frequencies-3.svg" alt/> <img src="rotating-beam-frequencies-4.svg" alt/></p><p>In this case our eigenmode correlations worked, but remember that large changes in the underlying parameters (or just drastic changes in the eigenvectors themselves due to a small perturbation) can cause these automatic eigenmode correlations to fail.</p><p>We can also visualize eigenmodes using ParaView.  Here we will visualize the first bending mode for the 45 degree swept tip at a rotational speed of 750 RPM.</p><pre><code class="language-">write_vtk(&quot;rotating-beam-45d-750rpm-bending-mode-1&quot;, assembly, state[end,end], λ[end,end][1], eigenstates[end,end][1], mode_scaling=100.0)
-nothing #hide</code></pre><p><img src="../rotating-beam.gif" alt/></p><h2 id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><a class="docs-heading-anchor" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a><a id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly" title="Permalink"></a></h2><pre><code class="language-">
-using GEBT, LinearAlgebra
+plot!(show=true)</code></pre><p><img src="../rotating-beam-frequencies-1.svg" alt/> <img src="../rotating-beam-frequencies-2.svg" alt/> <img src="../rotating-beam-frequencies-3.svg" alt/> <img src="../rotating-beam-frequencies-4.svg" alt/></p><p>In this case our eigenmode correlations worked, but remember that large changes in the underlying parameters (or just drastic changes in the eigenvectors themselves due to a small perturbation) can cause these automatic eigenmode correlations to fail.</p><p>We can also visualize eigenmodes using ParaView.  Here we will visualize the first bending mode for the 45 degree swept tip at a rotational speed of 750 RPM.</p><pre><code class="language-julia">write_vtk(&quot;rotating-beam-45d-750rpm-bending-mode-1&quot;, assembly, state[end,end], λ[end,end][1], eigenstates[end,end][1], mode_scaling=100.0)</code></pre><p><img src="../rotating-beam.gif" alt/></p><h2 id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly"><a class="docs-heading-anchor" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly">Nonlinear Time-Marching and Eigenvalue Analysis of a Beam Assembly</a><a id="Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Time-Marching-and-Eigenvalue-Analysis-of-a-Beam-Assembly" title="Permalink"></a></h2><pre><code class="language-julia">using GEBT, LinearAlgebra
 
 nelem = 20
 nelem_b1 = div(nelem, 2)
@@ -825,6 +811,4 @@ system, history, converged = time_domain_analysis(assembly, dt,
 system, λ, V, converged = eigenvalue_analysis(assembly,
     prescribed_conditions=prescribed_conditions, nstep = nstep, nev = 50)
 
-Us = left_eigenvectors(system, λ, V)
-
-nothing #hide</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 3 August 2020 19:44">Monday 3 August 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+Us = left_eigenvectors(system, λ, V)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 3 August 2020 19:44">Monday 3 August 2020</span>. Using Julia version 1.4.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

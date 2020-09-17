@@ -58,7 +58,7 @@ deflection_a .-= deflection_a[end] # apply boundary condition
 theta_a = -atan.(slope_a)
 
 # adjust coordinate system of the analytical solution to match the computational solution
-M_a = -M_a</code></pre><p>Plotting the results reveals that the analytical and computational solutions show excellent agreement.</p><pre><code class="language-julia">using Plots
+M_a = -M_a</code></pre><p>Plotting the results reveals that the analytical and computational solutions show excellent agreement.</p><pre><code class="language-">using Plots
 pyplot()
 
 # deflection plot
@@ -76,6 +76,7 @@ deflection = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
 plot!(x_a, deflection_a, label=&quot;Analytical&quot;)
 scatter!(x, deflection, label=&quot;GXBeam&quot;)
 
+savefig(&quot;linear-cantilever-pudl-1.svg&quot;) #hide
 
 # elastic twist plot (euler angle)
 plot(
@@ -92,6 +93,7 @@ theta = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint = 1:length(assembly
 plot!(x_a, theta_a, label=&quot;Analytical&quot;)
 scatter!(x, theta, label=&quot;GXBeam&quot;)
 
+savefig(&quot;linear-cantilever-pudl-2.svg&quot;) #hide
 
 # bending moment plot
 plot(
@@ -106,7 +108,10 @@ plot(
 x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for ielem = 1:length(assembly.elements)]
 M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label=&quot;Analytical&quot;)
-scatter!(x, M, label=&quot;GXBeam&quot;)</code></pre><p><img src="../linear-cantilever-pudl-1.svg" alt/></p><p><img src="../linear-cantilever-pudl-2.svg" alt/></p><p><img src="../linear-cantilever-pudl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a><a id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a beam which is clamped at one end and simply supported at the other end when subjected to a linear distributed load.</p><p><img src="../linear-overdetermined-ldl-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+scatter!(x, M, label=&quot;GXBeam&quot;)
+
+savefig(&quot;linear-cantilever-pudl-3.svg&quot;) #hide
+nothing #hide</code></pre><p><img src="linear-cantilever-pudl-1.svg" alt/></p><p><img src="linear-cantilever-pudl-2.svg" alt/></p><p><img src="linear-cantilever-pudl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load"><a class="docs-heading-anchor" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load">Linear Analysis of a Beam Under a Linear Distributed Load</a><a id="Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Linear-Analysis-of-a-Beam-Under-a-Linear-Distributed-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a beam which is clamped at one end and simply supported at the other end when subjected to a linear distributed load.</p><p><img src="../linear-overdetermined-ldl-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 nelem = 16
 
@@ -158,7 +163,7 @@ M_a = @. qmax/120*(8 - 48*(1-x_a) + 60*(1-x_a)^2 - 20*(1-x_a)^3)
 theta_a = -atan.(slope_a)
 
 # adjust coordinate system of analytical solution
-M_a = -M_a</code></pre><p>Plotting the results reveals that the analytical and computational solutions show excellent agreement.</p><pre><code class="language-julia">using Plots
+M_a = -M_a</code></pre><p>Plotting the results reveals that the analytical and computational solutions show excellent agreement.</p><pre><code class="language-">using Plots
 pyplot()
 
 # set up the plot
@@ -176,6 +181,7 @@ deflection = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
 plot!(x_a, w_a, label=&quot;Analytical&quot;)
 scatter!(x, deflection, label=&quot;GXBeam&quot;)
 
+savefig(&quot;linear-overdetermined-ldl-1.svg&quot;) #hide
 
 plot(
     xlim = (0.0, 1.0),
@@ -191,6 +197,7 @@ theta = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint = 1:length(assembly
 plot!(x_a, theta_a, label=&quot;Analytical&quot;)
 scatter!(x, theta, label=&quot;GXBeam&quot;)
 
+savefig(&quot;linear-overdetermined-ldl-2.svg&quot;) #hide
 
 plot(
     xlim = (0.0, 1.0),
@@ -204,7 +211,10 @@ plot(
 x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for ielem = 1:length(assembly.elements)]
 M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label=&quot;Analytical&quot;)
-scatter!(x, M, label=&quot;GXBeam&quot;)</code></pre><p><img src="../linear-overdetermined-ldl-1.svg" alt/></p><p><img src="../linear-overdetermined-ldl-2.svg" alt/></p><p><img src="../linear-overdetermined-ldl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip load.</p><p><img src="../cantilever-tipforce-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+scatter!(x, M, label=&quot;GXBeam&quot;)
+
+savefig(&quot;linear-overdetermined-ldl-3.svg&quot;) #hide
+nothing #hide</code></pre><p><img src="linear-overdetermined-ldl-1.svg" alt/></p><p><img src="linear-overdetermined-ldl-2.svg" alt/></p><p><img src="linear-overdetermined-ldl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip load.</p><p><img src="../cantilever-tipforce-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 L = 1
 EI = 1e6
@@ -265,7 +275,7 @@ k = @. cos(pi/4)/sin(δ)
 
 ξ_a = @. sqrt(2*sin(θ_a)/λ_a) .- 1
 
-η_a = @. 1-2/sqrt(λ_a)*(Elliptic.E(pi/2, k^2) - Elliptic.E(δ, k^2))</code></pre><p>Plotting the results reveals that the analytical and computational solutions show excellent agreement.</p><pre><code class="language-julia">using Plots
+η_a = @. 1-2/sqrt(λ_a)*(Elliptic.E(pi/2, k^2) - Elliptic.E(δ, k^2))</code></pre><p>Plotting the results reveals that the analytical and computational solutions show excellent agreement.</p><pre><code class="language-">using Plots
 pyplot()
 
 u = [states[i].points[end].u[1] for i = 1:length(P)]
@@ -297,7 +307,9 @@ plot!(λ_a, -ξ_a, color=2, label=&quot;&quot;)
 scatter!(λ, -u/L, color=2, label=&quot;&quot;)
 
 plot!(λ_a, θ_a*2/pi, color=3, label=&quot;&quot;)
-scatter!(λ, -4*atan.(θ/4)*2/pi, color=3, label=&quot;&quot;)</code></pre><p><img src="../cantilever-tipforce.svg" alt/></p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip moment.  This is a common benchmark problem for the geometrically nonlinear analysis of beams.</p><p><img src="../cantilever-tipmoment-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+scatter!(λ, -4*atan.(θ/4)*2/pi, color=3, label=&quot;&quot;)
+
+savefig(&quot;cantilever-tipforce.svg&quot;); nothing #hide</code></pre><p><img src="cantilever-tipforce.svg" alt/></p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment">Nonlinear Analysis of a Cantilever Subjected to a Constant Moment</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Moment" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip moment.  This is a common benchmark problem for the geometrically nonlinear analysis of beams.</p><p><img src="../cantilever-tipmoment-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 L = 12 # inches
 h = w = 1 # inches
@@ -353,7 +365,7 @@ for i = 1:length(M)
     states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
 
 end</code></pre><p>This problem has a simple analytical solution, which we obtained from &quot;Study of the Geometric Stiffening Effect: Comparison of Different Formulations&quot; by Juana M. Mayo, Daniel Garcia-Vallejo, and Jaime Dominguez.</p><pre><code class="language-julia"># analytical solution (ρ = E*I/M)
-analytical(x, ρ) = ifelse(ρ == Inf, zeros(3), [ρ*sin(x/ρ)-x, ρ*(1-cos(x/ρ)), 0])</code></pre><p>Plotting the results reveals that the analytical and computational results show excellent agreement.</p><pre><code class="language-julia">using Plots
+analytical(x, ρ) = ifelse(ρ == Inf, zeros(3), [ρ*sin(x/ρ)-x, ρ*(1-cos(x/ρ)), 0])</code></pre><p>Plotting the results reveals that the analytical and computational results show excellent agreement.</p><pre><code class="language-">using Plots
 pyplot()
 
 # set up the plot
@@ -375,6 +387,7 @@ plot!([NaN, NaN], [NaN, NaN], color=:black, label=&quot;Analytical&quot;)
 
 # plot the data
 for i = 1:length(M)
+    local x, y #hide
     # GXBeam
     x = [assembly.points[ipoint][1] + states[i].points[ipoint].u[1] for ipoint = 1:length(assembly.points)]
     y = [assembly.points[ipoint][2] + states[i].points[ipoint].u[2] for ipoint = 1:length(assembly.points)]
@@ -386,7 +399,9 @@ for i = 1:length(M)
     x = (x0 + getindex.(deflection, 1))
     y = getindex.(deflection, 2)
     plot!(x/L, y/L, label=&quot;λ=$(λ[i])&quot;, color=i)
-end</code></pre><p><img src="../cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+end
+
+savefig(&quot;cantilever-tipmoment.svg&quot;); nothing #hide</code></pre><p><img src="cantilever-tipmoment.svg" alt/></p><h2 id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space">Nonlinear Analysis of the Bending of a Curved Beam in 3D Space</a><a id="Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-the-Bending-of-a-Curved-Beam-in-3D-Space" title="Permalink"></a></h2><p>This example is also a common benchmark problem for the geometrically exact bending of nonlinear beams.</p><p><img src="../cantilever-curved-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 # problem constants
 R = 100
@@ -442,7 +457,7 @@ system, converged = static_analysis(assembly, prescribed_conditions=prescribed_c
 state = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
 
 println(&quot;Tip Displacement: &quot;, state.points[end].u)
-println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.577383726758576, -23.545303336988052, 53.45800757548926]
+println(&quot;Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]&quot;)</code></pre><pre class="documenter-example-output">Tip Displacement: [-13.57738372675857, -23.545303336988052, 53.45800757548927]
 Tip Displacement (Bathe and Bolourch): [-13.4, -23.5, 53.4]</pre><p>The calculated tip displacements match those reported by Bathe and Bolourch in &quot;Large Displacement Analysis of Three-Dimensional Beam Structures&quot; closely, thus verifying our implementation of geometrically exact beam theory.</p><p>We can visualize the deformed geometry and inspect the associated point and element data using ParaView.</p><pre><code class="language-julia">write_vtk(&quot;cantilever-curved&quot;, assembly, state)</code></pre><p><img src="../cantilever-curved.png" alt/></p><h2 id="Rotating-Beam-with-a-Swept-Tip"><a class="docs-heading-anchor" href="#Rotating-Beam-with-a-Swept-Tip">Rotating Beam with a Swept Tip</a><a id="Rotating-Beam-with-a-Swept-Tip-1"></a><a class="docs-heading-anchor-permalink" href="#Rotating-Beam-with-a-Swept-Tip" title="Permalink"></a></h2><p>In this example we analyze a rotating beam with a swept tip.  The parameters for this example come from &quot;Finite element solution of nonlinear intrinsic equations for curved composite beams&quot; by Hodges, Shang, and Cesnik.</p><p><img src="../rotating-beam-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 sweep = 45 * pi/180
@@ -530,7 +545,7 @@ for i = 1:length(rpm)
         linear = true)
 
     linear_states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
-end</code></pre><p>To visualize the solutions we will plot the root moment and tip deflections against the angular speed.</p><pre><code class="language-julia">using Plots
+end</code></pre><p>To visualize the solutions we will plot the root moment and tip deflections against the angular speed.</p><pre><code class="language-">using Plots
 pyplot()
 
 # root moment
@@ -548,6 +563,7 @@ Mz_l = [-linear_states[i].points[1].M[3] for i = 1:length(rpm)]
 plot!(rpm, Mz_nl, label=&quot;Nonlinear&quot;)
 plot!(rpm, Mz_l, label=&quot;Linear&quot;)
 
+savefig(&quot;rotating-beam-Mz.svg&quot;); nothing #hide
 
 # x tip deflection
 plot(
@@ -565,6 +581,7 @@ ux_l = [linear_states[i].points[end].u[1] for i = 1:length(rpm)]
 plot!(rpm, ux_nl, label=&quot;Nonlinear&quot;)
 plot!(rpm, ux_l, label=&quot;Linear&quot;)
 
+savefig(&quot;rotating-beam-ux.svg&quot;); nothing #hide
 
 # y tip deflection
 plot(
@@ -582,6 +599,7 @@ uy_l = [linear_states[i].points[end].u[2] for i = 1:length(rpm)]
 plot!(rpm, uy_nl, label=&quot;Nonlinear&quot;)
 plot!(rpm, uy_l, label=&quot;Linear&quot;)
 
+savefig(&quot;rotating-beam-uy.svg&quot;); nothing #hide
 
 # rotation of the tip
 plot(
@@ -596,7 +614,9 @@ theta_z_nl = [4*atan(nonlinear_states[i].points[end].theta[3]/4) for i = 1:lengt
 theta_z_l = [4*atan(linear_states[i].points[end].theta[3]/4) for i = 1:length(rpm)]
 
 plot!(rpm, theta_z_nl, label=&quot;Nonlinear&quot;)
-plot!(rpm, theta_z_l, label=&quot;Linear&quot;)</code></pre><p><img src="../rotating-beam-Mz.svg" alt/> <img src="../rotating-beam-ux.svg" alt/> <img src="../rotating-beam-uy.svg" alt/> <img src="../rotating-beam-theta_z.svg" alt/></p><p>We will now compute the eigenvalues of this system for a range of sweep angles and and angular speeds.</p><pre><code class="language-julia">sweep = (0:2.5:45) * pi/180
+plot!(rpm, theta_z_l, label=&quot;Linear&quot;)
+
+savefig(&quot;rotating-beam-theta_z.svg&quot;); nothing #hide</code></pre><p><img src="rotating-beam-Mz.svg" alt/> <img src="rotating-beam-ux.svg" alt/> <img src="rotating-beam-uy.svg" alt/> <img src="rotating-beam-theta_z.svg" alt/></p><p>We will now compute the eigenvalues of this system for a range of sweep angles and and angular speeds.</p><pre><code class="language-julia">sweep = (0:2.5:45) * pi/180
 rpm = [0, 500, 750]
 nev = 30
 
@@ -758,64 +778,192 @@ for k = 1:length(indices)
         label=&quot;&quot;, color=k)
 end
 
-plot!(show=true)</code></pre><pre class="documenter-example-output">sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.</pre><p><img src="../rotating-beam-frequencies-1.svg" alt/> <img src="../rotating-beam-frequencies-2.svg" alt/> <img src="../rotating-beam-frequencies-3.svg" alt/> <img src="../rotating-beam-frequencies-4.svg" alt/></p><p>As you can see, the frequency results from the eigenmode analysis in this package compare well with experimental results.</p><p>We can also visualize eigenmodes using ParaView.  Here we will visualize the first bending mode for the 45 degree swept tip at a rotational speed of 750 RPM.  This can be helpful for identifying different eigenmodes.</p><pre><code class="language-julia">write_vtk(&quot;rotating-beam-45d-750rpm-bending-mode-1&quot;, assembly, state[end,end], λ[end,end][1],
+plot!(show=true)</code></pre><pre class="documenter-example-output">/home/runner/.julia/packages/GR/BwGt2/src/../deps/gr/bin/gksqt: error while loading shared libraries: libQt5Widgets.so.5: cannot open shared object file: No such file or directory
+connect: Connection refused
+GKS: can&#39;t connect to GKS socket application
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+/home/runner/.julia/packages/GR/BwGt2/src/../deps/gr/bin/gksqt: error while loading shared libraries: libQt5Widgets.so.5: cannot open shared object file: No such file or directory
+connect: Connection refused
+GKS: can&#39;t connect to GKS socket application
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+/home/runner/.julia/packages/GR/BwGt2/src/../deps/gr/bin/gksqt: error while loading shared libraries: libQt5Widgets.so.5: cannot open shared object file: No such file or directory
+connect: Connection refused
+GKS: can&#39;t connect to GKS socket application
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+/home/runner/.julia/packages/GR/BwGt2/src/../deps/gr/bin/gksqt: error while loading shared libraries: libQt5Widgets.so.5: cannot open shared object file: No such file or directory
+connect: Connection refused
+GKS: can&#39;t connect to GKS socket application
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine FILLAREA
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine TEXT
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYLINE
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER
+GKS: GKS not in proper state. GKS must be either in the state WSAC or SGOP in routine POLYMARKER</pre><p><img src="../rotating-beam-frequencies-1.svg" alt/> <img src="../rotating-beam-frequencies-2.svg" alt/> <img src="../rotating-beam-frequencies-3.svg" alt/> <img src="../rotating-beam-frequencies-4.svg" alt/></p><p>As you can see, the frequency results from the eigenmode analysis in this package compare well with experimental results.</p><p>We can also visualize eigenmodes using ParaView.  Here we will visualize the first bending mode for the 45 degree swept tip at a rotational speed of 750 RPM.  This can be helpful for identifying different eigenmodes.</p><pre><code class="language-julia">write_vtk(&quot;rotating-beam-45d-750rpm-bending-mode-1&quot;, assembly, state[end,end], λ[end,end][1],
     eigenstates[end,end][1], mode_scaling=100.0)</code></pre><p><img src="../rotating-beam.gif" alt/></p><h2 id="Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade"><a class="docs-heading-anchor" href="#Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade">Nonlinear Dynamic Analysis of a Wind Turbine Blade</a><a id="Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade" title="Permalink"></a></h2><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 L = 60 # m
@@ -867,7 +1015,7 @@ prescribed_conditions = Dict(
     nelem+1 =&gt; PrescribedConditions(dt; nstep=nstep, Fz=(t)-&gt;1e5*sin.(20*t))
 )
 
-system, history, converged = time_domain_analysis(assembly, dt; prescribed_conditions=prescribed_conditions, nstep=nstep)</code></pre><p>We can visualize tip displacements and the resultant forces in the root by accessing the post-processed results for each time step contained in the variable <code>history</code>.  Note that  the root resultant forces for this case are equal to the external forces/moments, but with opposite sign.</p><pre><code class="language-julia">using Plots
+system, history, converged = time_domain_analysis(assembly, dt; prescribed_conditions=prescribed_conditions, nstep=nstep)</code></pre><p>We can visualize tip displacements and the resultant forces in the root by accessing the post-processed results for each time step contained in the variable <code>history</code>.  Note that  the root resultant forces for this case are equal to the external forces/moments, but with opposite sign.</p><pre><code class="language-">using Plots
 pyplot()
 
 point = vcat(fill(nelem+1, 6), fill(1, 6))
@@ -879,6 +1027,7 @@ ylabel = [&quot;\$u_x\$ (\$m\$)&quot;, &quot;\$u_y\$ (\$m\$)&quot;, &quot;\$u_z\
     &quot;\$M_x\$ (\$Nm\$)&quot;, &quot;\$M_y\$ (\$Nm\$)&quot;, &quot;\$M_z\$ (\$N\$)&quot;]
 
 for i = 1:12
+    local y #hide
     plot(
         xlim = (0, 2.0),
         xticks = 0:0.5:2.0,
@@ -902,64 +1051,8 @@ for i = 1:12
 
     plot!(t, y, label=&quot;&quot;)
     plot!(show=true)
-end</code></pre><pre class="documenter-example-output">sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.</pre><p><img src="../dynamic-wind-turbine-u1.svg" alt/> <img src="../dynamic-wind-turbine-u2.svg" alt/> <img src="../dynamic-wind-turbine-u3.svg" alt/> <img src="../dynamic-wind-turbine-theta1.svg" alt/> <img src="../dynamic-wind-turbine-theta2.svg" alt/> <img src="../dynamic-wind-turbine-theta3.svg" alt/> <img src="../dynamic-wind-turbine-F1.svg" alt/> <img src="../dynamic-wind-turbine-F2.svg" alt/> <img src="../dynamic-wind-turbine-F3.svg" alt/> <img src="../dynamic-wind-turbine-M1.svg" alt/> <img src="../dynamic-wind-turbine-M2.svg" alt/> <img src="../dynamic-wind-turbine-M3.svg" alt/></p><p>These plots are identical to those presented by Qi Wang, Wenbin Yu, and Michael A. Sprague in &quot;Geometric Nonlinear Analysis of Composite Beams Using Wiener-Milenkovic Parameters&quot;.</p><p>We can also visualize the time history of the system using ParaView.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-wind-turbine&quot;, assembly, history, dt)</code></pre><p><img src="../dynamic-wind-turbine.gif" alt/></p><h2 id="Nonlinear-Static-Analysis-of-a-Joined-Wing"><a class="docs-heading-anchor" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing">Nonlinear Static Analysis of a Joined-Wing</a><a id="Nonlinear-Static-Analysis-of-a-Joined-Wing-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing" title="Permalink"></a></h2><p>In this example we analyze joined-wing model proposed by Blair in &quot;An Equivalent Beam Formulation for Joined-Wings in a Post-Buckled State&quot; and optimized by Green et al. in &quot;Structural Optimization of Joined-Wing Beam Model with Bend-Twist Coupling using Equivalent Static Loads&quot;.</p><p><img src="../static-joined-wing-drawing.png" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+    savefig(&quot;dynamic-wind-turbine-&quot;*string(field[i])*string(direction[i])*&quot;.svg&quot;); nothing #hide
+end</code></pre><p><img src="dynamic-wind-turbine-u1.svg" alt/> <img src="dynamic-wind-turbine-u2.svg" alt/> <img src="dynamic-wind-turbine-u3.svg" alt/> <img src="dynamic-wind-turbine-theta1.svg" alt/> <img src="dynamic-wind-turbine-theta2.svg" alt/> <img src="dynamic-wind-turbine-theta3.svg" alt/> <img src="dynamic-wind-turbine-F1.svg" alt/> <img src="dynamic-wind-turbine-F2.svg" alt/> <img src="dynamic-wind-turbine-F3.svg" alt/> <img src="dynamic-wind-turbine-M1.svg" alt/> <img src="dynamic-wind-turbine-M2.svg" alt/> <img src="dynamic-wind-turbine-M3.svg" alt/></p><p>These plots are identical to those presented by Qi Wang, Wenbin Yu, and Michael A. Sprague in &quot;Geometric Nonlinear Analysis of Composite Beams Using Wiener-Milenkovic Parameters&quot;.</p><p>We can also visualize the time history of the system using ParaView.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-wind-turbine&quot;, assembly, history, dt)</code></pre><p><img src="../dynamic-wind-turbine.gif" alt/></p><h2 id="Nonlinear-Static-Analysis-of-a-Joined-Wing"><a class="docs-heading-anchor" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing">Nonlinear Static Analysis of a Joined-Wing</a><a id="Nonlinear-Static-Analysis-of-a-Joined-Wing-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing" title="Permalink"></a></h2><p>In this example we analyze joined-wing model proposed by Blair in &quot;An Equivalent Beam Formulation for Joined-Wings in a Post-Buckled State&quot; and optimized by Green et al. in &quot;Structural Optimization of Joined-Wing Beam Model with Bend-Twist Coupling using Equivalent Static Loads&quot;.</p><p><img src="../static-joined-wing-drawing.png" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 # Set endpoints of each beam
 p1 = [-7.1726, -12, -3.21539]
@@ -1112,7 +1205,7 @@ for i = 1:length(Fz)
 
     nonlinear_follower_states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
 
-end</code></pre><p>Note that we incrementally increased the load from 0 to 70 kN in order to ensure that we obtained converged solutions.</p><p>To visualize the differences between the different types of analyses we can plot the load deflection curve.</p><pre><code class="language-julia">using Plots
+end</code></pre><p>Note that we incrementally increased the load from 0 to 70 kN in order to ensure that we obtained converged solutions.</p><p>To visualize the differences between the different types of analyses we can plot the load deflection curve.</p><pre><code class="language-">using Plots
 pyplot()
 
 plot(
@@ -1131,7 +1224,9 @@ uz_fnl = [nonlinear_follower_states[i].points[ijoint].u[3] for i = 1:length(Fz)]
 
 plot!(uz_l, Fz./1e3, label=&quot;Linear&quot;)
 plot!(uz_nl, Fz./1e3, label=&quot;Nonlinear with Dead Force&quot;)
-plot!(uz_fnl, Fz./1e3, label=&quot;Nonlinear with Follower Force&quot;)</code></pre><p>This plot matches the plot provided by Wenbin Yu in &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot;.</p><p><img src="../static-joined-wing.svg" alt/></p><p>We can also visualize the deformed geometry and inspect the associated point and element data for any of these operating conditions conditions using ParaView.  To demonstrate we will visualize the 70kN follower force condition and set the color gradient to match the magnitude of the deflections.</p><pre><code class="language-julia">write_vtk(&quot;static-joined-wing&quot;, assembly, nonlinear_follower_states[end])</code></pre><p><img src="../static-joined-wing.png" alt/></p><h2 id="Nonlinear-Dynamic-Analysis-of-a-Joined-Wing"><a class="docs-heading-anchor" href="#Nonlinear-Dynamic-Analysis-of-a-Joined-Wing">Nonlinear Dynamic Analysis of a Joined-Wing</a><a id="Nonlinear-Dynamic-Analysis-of-a-Joined-Wing-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Dynamic-Analysis-of-a-Joined-Wing" title="Permalink"></a></h2><p>In this example we use the same joined-wing model as used in the previous example, but with the following time varying loads applied at the wingtip:</p><ul><li>A piecewise-linear load <span>$F_L$</span> in the x and y-directions defined as follows:</li></ul><div>\[F_L(t) = \begin{cases}
+plot!(uz_fnl, Fz./1e3, label=&quot;Nonlinear with Follower Force&quot;)
+
+savefig(&quot;static-joined-wing.svg&quot;); nothing #hide</code></pre><p>This plot matches the plot provided by Wenbin Yu in &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot;.</p><p><img src="static-joined-wing.svg" alt/></p><p>We can also visualize the deformed geometry and inspect the associated point and element data for any of these operating conditions conditions using ParaView.  To demonstrate we will visualize the 70kN follower force condition and set the color gradient to match the magnitude of the deflections.</p><pre><code class="language-julia">write_vtk(&quot;static-joined-wing&quot;, assembly, nonlinear_follower_states[end])</code></pre><p><img src="../static-joined-wing.png" alt/></p><h2 id="Nonlinear-Dynamic-Analysis-of-a-Joined-Wing"><a class="docs-heading-anchor" href="#Nonlinear-Dynamic-Analysis-of-a-Joined-Wing">Nonlinear Dynamic Analysis of a Joined-Wing</a><a id="Nonlinear-Dynamic-Analysis-of-a-Joined-Wing-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Dynamic-Analysis-of-a-Joined-Wing" title="Permalink"></a></h2><p>In this example we use the same joined-wing model as used in the previous example, but with the following time varying loads applied at the wingtip:</p><ul><li>A piecewise-linear load <span>$F_L$</span> in the x and y-directions defined as follows:</li></ul><div>\[F_L(t) = \begin{cases}
     t10^6 \text{ N} &amp; 0 \leq t \leq 0.01 \\
     (0.02-t)10^6 &amp; 0.01 \leq t \leq 0.02 \\
     0 &amp; \text{otherwise}
@@ -1224,7 +1319,7 @@ prescribed_conditions = Dict(
     nelem+1 =&gt; PrescribedConditions(dt; nstep=nstep, ux=0, uy=0, uz=0, theta_x=0, theta_y=0, theta_z=0),
 )
 
-system, history, converged = time_domain_analysis(assembly, dt; prescribed_conditions=prescribed_conditions, nstep=nstep)</code></pre><p>We can visualize tip displacements and the resultant forces accessing the post-processed results for each time step contained in the variable <code>history</code>.  Note that the fore-root and rear-root resultant forces for this case are equal to the external forces/moments, but with opposite sign.</p><pre><code class="language-julia">using Plots
+system, history, converged = time_domain_analysis(assembly, dt; prescribed_conditions=prescribed_conditions, nstep=nstep)</code></pre><p>We can visualize tip displacements and the resultant forces accessing the post-processed results for each time step contained in the variable <code>history</code>.  Note that the fore-root and rear-root resultant forces for this case are equal to the external forces/moments, but with opposite sign.</p><pre><code class="language-">using Plots
 pyplot()
 
 point = vcat(fill(nelem_b1+1, 6), fill(1, 6))
@@ -1236,6 +1331,7 @@ ylabel = [&quot;\$u_x\$ (\$m\$)&quot;, &quot;\$u_y\$ (\$m\$)&quot;, &quot;\$u_z\
     &quot;\$M_x\$ at the forewing root (\$Nm\$)&quot;, &quot;\$M_y\$ at the forewing root (\$Nm\$)&quot;, &quot;\$M_z\$ at the forewing root (\$N\$)&quot;]
 
 for i = 1:12
+    local y #hide
     plot(
         xlim = (0, 0.04),
         xticks = 0:0.01:0.04,
@@ -1257,62 +1353,6 @@ for i = 1:12
 
     plot!(t, y, label=&quot;&quot;)
     plot!(show=true)
-end</code></pre><pre class="documenter-example-output">sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later</pre><p><img src="../dynamic-joined-wing-u1.svg" alt/> <img src="../dynamic-joined-wing-u2.svg" alt/> <img src="../dynamic-joined-wing-u3.svg" alt/> <img src="../dynamic-joined-wing-theta1.svg" alt/> <img src="../dynamic-joined-wing-theta2.svg" alt/> <img src="../dynamic-joined-wing-theta3.svg" alt/> <img src="../dynamic-joined-wing-F1.svg" alt/> <img src="../dynamic-joined-wing-F2.svg" alt/> <img src="../dynamic-joined-wing-F3.svg" alt/> <img src="../dynamic-joined-wing-M1.svg" alt/> <img src="../dynamic-joined-wing-M2.svg" alt/> <img src="../dynamic-joined-wing-M3.svg" alt/></p><p>These graphs are identical to those presented in &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot; by Wenbin Yu and Maxwell Blair.</p><p>We can also visualize the time history of the system using ParaView.  In order to view the small deflections we&#39;ll scale all the deflections up by a couple orders of magnitude.  We&#39;ll also set the color gradient to match the magnitude of the deflections at each point.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-joined-wing&quot;, assembly, history, dt, scaling=1e2)</code></pre><p><img src="../dynamic-joined-wing.gif" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../guide/">« Getting Started</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 14 September 2020 18:19">Monday 14 September 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    savefig(&quot;dynamic-joined-wing-&quot;*string(field[i])*string(direction[i])*&quot;.svg&quot;); nothing #hide
+end
+</code></pre><p><img src="dynamic-joined-wing-u1.svg" alt/> <img src="dynamic-joined-wing-u2.svg" alt/> <img src="dynamic-joined-wing-u3.svg" alt/> <img src="dynamic-joined-wing-theta1.svg" alt/> <img src="dynamic-joined-wing-theta2.svg" alt/> <img src="dynamic-joined-wing-theta3.svg" alt/> <img src="dynamic-joined-wing-F1.svg" alt/> <img src="dynamic-joined-wing-F2.svg" alt/> <img src="dynamic-joined-wing-F3.svg" alt/> <img src="dynamic-joined-wing-M1.svg" alt/> <img src="dynamic-joined-wing-M2.svg" alt/> <img src="dynamic-joined-wing-M3.svg" alt/></p><p>These graphs are identical to those presented in &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot; by Wenbin Yu and Maxwell Blair.</p><p>We can also visualize the time history of the system using ParaView.  In order to view the small deflections we&#39;ll scale all the deflections up by a couple orders of magnitude.  We&#39;ll also set the color gradient to match the magnitude of the deflections at each point.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-joined-wing&quot;, assembly, history, dt, scaling=1e2)</code></pre><p><img src="../dynamic-joined-wing.gif" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../guide/">« Getting Started</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 17 September 2020 21:19">Thursday 17 September 2020</span>. Using Julia version 1.5.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

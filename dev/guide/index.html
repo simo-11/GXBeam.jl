@@ -134,7 +134,8 @@ for i = 1:length(rpm)
 
      nonlinear_states[i] = AssemblyState(system, assembly, prescribed_conditions=prescribed_conditions)
 
-end</code></pre><h2 id="Post-Processing-Results"><a class="docs-heading-anchor" href="#Post-Processing-Results">Post Processing Results</a><a id="Post-Processing-Results-1"></a><a class="docs-heading-anchor-permalink" href="#Post-Processing-Results" title="Permalink"></a></h2><p>We can access the fields in each instance of <code>AssemblyState</code> in order to plot various quantities of interest.  This object stores an array of objects of type <code>PointState</code> in the field <code>points</code> and an array of objects of type <code>ElementState</code> in the field <code>elements</code>.  </p><p>The fields of <code>PointState</code> are the following:</p><ul><li><code>u</code>: displacement</li><li><code>theta</code>: angular displacement</li><li><code>F</code>: externally applied forces</li><li><code>M</code>: externally applied moments</li></ul><p>The fields of <code>ElementState</code> are the following:</p><ul><li><code>u</code>: displacement</li><li><code>theta</code>: angular displacement</li><li><code>F</code>: resultant forces</li><li><code>M</code>: resultant moments</li><li><code>P</code>: linear momenta</li><li><code>H</code>: angular momenta</li></ul><p>To demonstrate how these fields can be accessed we will now plot the root moment and tip deflections.</p><pre><code class="language-julia">using Plots
+end</code></pre><h2 id="Post-Processing-Results"><a class="docs-heading-anchor" href="#Post-Processing-Results">Post Processing Results</a><a id="Post-Processing-Results-1"></a><a class="docs-heading-anchor-permalink" href="#Post-Processing-Results" title="Permalink"></a></h2><p>We can access the fields in each instance of <code>AssemblyState</code> in order to plot various quantities of interest.  This object stores an array of objects of type <code>PointState</code> in the field <code>points</code> and an array of objects of type <code>ElementState</code> in the field <code>elements</code>.  </p><p>The fields of <code>PointState</code> are the following:</p><ul><li><code>u</code>: displacement</li><li><code>theta</code>: angular displacement</li><li><code>F</code>: externally applied forces</li><li><code>M</code>: externally applied moments</li></ul><p>The fields of <code>ElementState</code> are the following:</p><ul><li><code>u</code>: displacement</li><li><code>theta</code>: angular displacement</li><li><code>F</code>: resultant forces</li><li><code>M</code>: resultant moments</li><li><code>P</code>: linear momenta</li><li><code>H</code>: angular momenta</li></ul><p>To demonstrate how these fields can be accessed we will now plot the root moment and tip deflections.</p><pre><code class="language-">
+using Plots
 pyplot()
 
 # root moment
@@ -152,6 +153,7 @@ Mz_l = [-linear_states[i].points[1].M[3] for i = 1:length(rpm)]
 plot!(rpm, Mz_nl, label=&quot;Nonlinear&quot;)
 plot!(rpm, Mz_l, label=&quot;Linear&quot;)
 
+savefig(&quot;rotating-beam-Mz.svg&quot;); nothing #hide
 
 # x tip deflection
 plot(
@@ -169,6 +171,7 @@ ux_l = [linear_states[i].points[end].u[1] for i = 1:length(rpm)]
 plot!(rpm, ux_nl, label=&quot;Nonlinear&quot;)
 plot!(rpm, ux_l, label=&quot;Linear&quot;)
 
+savefig(&quot;rotating-beam-ux.svg&quot;); nothing #hide
 
 # y tip deflection
 plot(
@@ -186,6 +189,7 @@ uy_l = [linear_states[i].points[end].u[2] for i = 1:length(rpm)]
 plot!(rpm, uy_nl, label=&quot;Nonlinear&quot;)
 plot!(rpm, uy_l, label=&quot;Linear&quot;)
 
+savefig(&quot;rotating-beam-uy.svg&quot;); nothing #hide
 
 # rotation of the tip
 plot(
@@ -200,4 +204,6 @@ theta_z_nl = [4*atan(nonlinear_states[i].points[end].theta[3]/4) for i = 1:lengt
 theta_z_l = [4*atan(linear_states[i].points[end].theta[3]/4) for i = 1:length(rpm)]
 
 plot!(rpm, theta_z_nl, label=&quot;Nonlinear&quot;)
-plot!(rpm, theta_z_l, label=&quot;Linear&quot;)</code></pre><p><img src="../rotating-beam-Mz.svg" alt/> <img src="../rotating-beam-ux.svg" alt/> <img src="../rotating-beam-uy.svg" alt/> <img src="../rotating-beam-theta_z.svg" alt/></p><h2 id="Other-Capabilities"><a class="docs-heading-anchor" href="#Other-Capabilities">Other Capabilities</a><a id="Other-Capabilities-1"></a><a class="docs-heading-anchor-permalink" href="#Other-Capabilities" title="Permalink"></a></h2><p>For information on how to use the other capabilities of this package see the <a href="../examples/#Examples">examples</a> and/or the the <a href="../library/#Public-API">Public API</a>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 14 September 2020 18:19">Monday 14 September 2020</span>. Using Julia version 1.5.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+plot!(rpm, theta_z_l, label=&quot;Linear&quot;)
+
+nothing #hide</code></pre><p><img src="rotating-beam-Mz.svg" alt/> <img src="rotating-beam-ux.svg" alt/> <img src="rotating-beam-uy.svg" alt/> <img src="rotating-beam-theta_z.svg" alt/></p><h2 id="Other-Capabilities"><a class="docs-heading-anchor" href="#Other-Capabilities">Other Capabilities</a><a id="Other-Capabilities-1"></a><a class="docs-heading-anchor-permalink" href="#Other-Capabilities" title="Permalink"></a></h2><p>For information on how to use the other capabilities of this package see the <a href="../examples/#Examples">examples</a> and/or the the <a href="../library/#Public-API">Public API</a>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="../examples/">Examples »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 17 September 2020 21:19">Thursday 17 September 2020</span>. Using Julia version 1.5.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

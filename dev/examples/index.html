@@ -206,7 +206,8 @@ plot(
 x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for ielem = 1:length(assembly.elements)]
 M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label=&quot;Analytical&quot;)
-scatter!(x, M, label=&quot;GXBeam&quot;)</code></pre><p><img src="../linear-overdetermined-ldl-1.svg" alt/></p><p><img src="../linear-overdetermined-ldl-2.svg" alt/></p><p><img src="../linear-overdetermined-ldl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip load.</p><p><img src="../cantilever-tipforce-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+scatter!(x, M, label=&quot;GXBeam&quot;)</code></pre><pre class="documenter-example-output">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
+└ @ none:17</pre><p><img src="../linear-overdetermined-ldl-1.svg" alt/></p><p><img src="../linear-overdetermined-ldl-2.svg" alt/></p><p><img src="../linear-overdetermined-ldl-3.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><h2 id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load"><a class="docs-heading-anchor" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load">Nonlinear Analysis of a Cantilever Subjected to a Constant Tip Load</a><a id="Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Analysis-of-a-Cantilever-Subjected-to-a-Constant-Tip-Load" title="Permalink"></a></h2><p>This example shows how to predict the behavior of a cantilever beam that is subjected to a constant tip load.</p><p><img src="../cantilever-tipforce-drawing.svg" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 L = 1
 EI = 1e6
@@ -760,64 +761,7 @@ for k = 1:length(indices)
         label=&quot;&quot;, color=k)
 end
 
-plot!(show=true)</code></pre><pre class="documenter-example-output">sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.</pre><p><img src="../rotating-beam-frequencies-1.svg" alt/> <img src="../rotating-beam-frequencies-2.svg" alt/> <img src="../rotating-beam-frequencies-3.svg" alt/> <img src="../rotating-beam-frequencies-4.svg" alt/></p><p>As you can see, the frequency results from the eigenmode analysis in this package compare well with experimental results.</p><p>We can also visualize eigenmodes using ParaView.  Here we will visualize the first bending mode for the 45 degree swept tip at a rotational speed of 750 RPM.  This can be helpful for identifying different eigenmodes.</p><pre><code class="language-julia">write_vtk(&quot;rotating-beam-45d-750rpm-bending-mode-1&quot;, assembly, state[end,end], λ[end,end][1],
+plot!(show=true)</code></pre><p><img src="../rotating-beam-frequencies-1.svg" alt/> <img src="../rotating-beam-frequencies-2.svg" alt/> <img src="../rotating-beam-frequencies-3.svg" alt/> <img src="../rotating-beam-frequencies-4.svg" alt/></p><p>As you can see, the frequency results from the eigenmode analysis in this package compare well with experimental results.</p><p>We can also visualize eigenmodes using ParaView.  Here we will visualize the first bending mode for the 45 degree swept tip at a rotational speed of 750 RPM.  This can be helpful for identifying different eigenmodes.</p><pre><code class="language-julia">write_vtk(&quot;rotating-beam-45d-750rpm-bending-mode-1&quot;, assembly, state[end,end], λ[end,end][1],
     eigenstates[end,end][1], mode_scaling=100.0)</code></pre><p><img src="../rotating-beam.gif" alt/></p><h2 id="Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade"><a class="docs-heading-anchor" href="#Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade">Nonlinear Dynamic Analysis of a Wind Turbine Blade</a><a id="Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Dynamic-Analysis-of-a-Wind-Turbine-Blade" title="Permalink"></a></h2><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 L = 60 # m
@@ -904,64 +848,7 @@ for i = 1:12
 
     plot!(t, y, label=&quot;&quot;)
     plot!(show=true)
-end</code></pre><pre class="documenter-example-output">sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.</pre><p><img src="../dynamic-wind-turbine-u1.svg" alt/> <img src="../dynamic-wind-turbine-u2.svg" alt/> <img src="../dynamic-wind-turbine-u3.svg" alt/> <img src="../dynamic-wind-turbine-theta1.svg" alt/> <img src="../dynamic-wind-turbine-theta2.svg" alt/> <img src="../dynamic-wind-turbine-theta3.svg" alt/> <img src="../dynamic-wind-turbine-F1.svg" alt/> <img src="../dynamic-wind-turbine-F2.svg" alt/> <img src="../dynamic-wind-turbine-F3.svg" alt/> <img src="../dynamic-wind-turbine-M1.svg" alt/> <img src="../dynamic-wind-turbine-M2.svg" alt/> <img src="../dynamic-wind-turbine-M3.svg" alt/></p><p>These plots are identical to those presented by Qi Wang, Wenbin Yu, and Michael A. Sprague in &quot;Geometric Nonlinear Analysis of Composite Beams Using Wiener-Milenkovic Parameters&quot;.</p><p>We can also visualize the time history of the system using ParaView.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-wind-turbine&quot;, assembly, history, dt)</code></pre><p><img src="../dynamic-wind-turbine.gif" alt/></p><h2 id="Nonlinear-Static-Analysis-of-a-Joined-Wing"><a class="docs-heading-anchor" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing">Nonlinear Static Analysis of a Joined-Wing</a><a id="Nonlinear-Static-Analysis-of-a-Joined-Wing-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing" title="Permalink"></a></h2><p>In this example we analyze joined-wing model proposed by Blair in &quot;An Equivalent Beam Formulation for Joined-Wings in a Post-Buckled State&quot; and optimized by Green et al. in &quot;Structural Optimization of Joined-Wing Beam Model with Bend-Twist Coupling using Equivalent Static Loads&quot;.</p><p><img src="../static-joined-wing-drawing.png" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
+end</code></pre><p><img src="../dynamic-wind-turbine-u1.svg" alt/> <img src="../dynamic-wind-turbine-u2.svg" alt/> <img src="../dynamic-wind-turbine-u3.svg" alt/> <img src="../dynamic-wind-turbine-theta1.svg" alt/> <img src="../dynamic-wind-turbine-theta2.svg" alt/> <img src="../dynamic-wind-turbine-theta3.svg" alt/> <img src="../dynamic-wind-turbine-F1.svg" alt/> <img src="../dynamic-wind-turbine-F2.svg" alt/> <img src="../dynamic-wind-turbine-F3.svg" alt/> <img src="../dynamic-wind-turbine-M1.svg" alt/> <img src="../dynamic-wind-turbine-M2.svg" alt/> <img src="../dynamic-wind-turbine-M3.svg" alt/></p><p>These plots are identical to those presented by Qi Wang, Wenbin Yu, and Michael A. Sprague in &quot;Geometric Nonlinear Analysis of Composite Beams Using Wiener-Milenkovic Parameters&quot;.</p><p>We can also visualize the time history of the system using ParaView.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-wind-turbine&quot;, assembly, history, dt)</code></pre><p><img src="../dynamic-wind-turbine.gif" alt/></p><h2 id="Nonlinear-Static-Analysis-of-a-Joined-Wing"><a class="docs-heading-anchor" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing">Nonlinear Static Analysis of a Joined-Wing</a><a id="Nonlinear-Static-Analysis-of-a-Joined-Wing-1"></a><a class="docs-heading-anchor-permalink" href="#Nonlinear-Static-Analysis-of-a-Joined-Wing" title="Permalink"></a></h2><p>In this example we analyze joined-wing model proposed by Blair in &quot;An Equivalent Beam Formulation for Joined-Wings in a Post-Buckled State&quot; and optimized by Green et al. in &quot;Structural Optimization of Joined-Wing Beam Model with Bend-Twist Coupling using Equivalent Static Loads&quot;.</p><p><img src="../static-joined-wing-drawing.png" alt/></p><pre><code class="language-julia">using GXBeam, LinearAlgebra
 
 # Set endpoints of each beam
 p1 = [-7.1726, -12, -3.21539]
@@ -1259,62 +1146,4 @@ for i = 1:12
 
     plot!(t, y, label=&quot;&quot;)
     plot!(show=true)
-end</code></pre><pre class="documenter-example-output">sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later
-sys:1: MatplotlibDeprecationWarning: Passing the fontdict parameter of _set_ticklabels() positionally is deprecated since Matplotlib 3.3; the parameter will become keyword-only two minor releases later.
-sys:1: UserWarning: FixedFormatter should only be used together with FixedLocator
-sys:1: MatplotlibDeprecationWarning: Case-insensitive properties were deprecated in 3.3 and support will be removed two minor releases later</pre><p><img src="../dynamic-joined-wing-u1.svg" alt/> <img src="../dynamic-joined-wing-u2.svg" alt/> <img src="../dynamic-joined-wing-u3.svg" alt/> <img src="../dynamic-joined-wing-theta1.svg" alt/> <img src="../dynamic-joined-wing-theta2.svg" alt/> <img src="../dynamic-joined-wing-theta3.svg" alt/> <img src="../dynamic-joined-wing-F1.svg" alt/> <img src="../dynamic-joined-wing-F2.svg" alt/> <img src="../dynamic-joined-wing-F3.svg" alt/> <img src="../dynamic-joined-wing-M1.svg" alt/> <img src="../dynamic-joined-wing-M2.svg" alt/> <img src="../dynamic-joined-wing-M3.svg" alt/></p><p>These graphs are identical to those presented in &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot; by Wenbin Yu and Maxwell Blair.</p><p>We can also visualize the time history of the system using ParaView.  In order to view the small deflections we&#39;ll scale all the deflections up by a couple orders of magnitude.  We&#39;ll also set the color gradient to match the magnitude of the deflections at each point.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-joined-wing&quot;, assembly, history, dt, scaling=1e2)</code></pre><p><img src="../dynamic-joined-wing.gif" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../guide/">« Getting Started</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 18 September 2020 03:18">Friday 18 September 2020</span>. Using Julia version 1.5.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre><p><img src="../dynamic-joined-wing-u1.svg" alt/> <img src="../dynamic-joined-wing-u2.svg" alt/> <img src="../dynamic-joined-wing-u3.svg" alt/> <img src="../dynamic-joined-wing-theta1.svg" alt/> <img src="../dynamic-joined-wing-theta2.svg" alt/> <img src="../dynamic-joined-wing-theta3.svg" alt/> <img src="../dynamic-joined-wing-F1.svg" alt/> <img src="../dynamic-joined-wing-F2.svg" alt/> <img src="../dynamic-joined-wing-F3.svg" alt/> <img src="../dynamic-joined-wing-M1.svg" alt/> <img src="../dynamic-joined-wing-M2.svg" alt/> <img src="../dynamic-joined-wing-M3.svg" alt/></p><p>These graphs are identical to those presented in &quot;GEBT: A general-purpose nonlinear analysis tool for composite beams&quot; by Wenbin Yu and Maxwell Blair.</p><p>We can also visualize the time history of the system using ParaView.  In order to view the small deflections we&#39;ll scale all the deflections up by a couple orders of magnitude.  We&#39;ll also set the color gradient to match the magnitude of the deflections at each point.</p><pre><code class="language-julia">write_vtk(&quot;dynamic-joined-wing&quot;, assembly, history, dt, scaling=1e2)</code></pre><p><img src="../dynamic-joined-wing.gif" alt/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../guide/">« Getting Started</a><a class="docs-footer-nextpage" href="../library/">Library »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 18 September 2020 04:49">Friday 18 September 2020</span>. Using Julia version 1.5.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

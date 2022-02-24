@@ -49,11 +49,22 @@ function SciMLBase.ODEProblem(system::System, assembly, tspan;
     angular_acceleration = (@SVector zeros(3)),
     )
 
+    N = length(system.x)
+    nelem = length(assembly.elements)
+
     # create ODEFunction
     func = SciMLBase.ODEFunction(system, assembly)
 
     # use initial state from `system`
-    u0 = copy(system.x)
+    u0 = similar(system.x, N + 12*nelem)
+    u0[1:N] .= system.x
+    for ielem = 1:nelem
+        icol = N+12*(ielem-1)
+        u0[icol+1:icol+3] = system.udot[ielem]
+        u0[icol+4:icol+6] = system.θdot[ielem]
+        u0[icol+7:icol+9] = system.Vdot[ielem]
+        u0[icol+10:icol+12] = system.Ωdot[ielem]
+    end
 
     # set parameters
     p = (prescribed_conditions, distributed_loads, point_masses, gravity, origin, 
@@ -108,6 +119,9 @@ function SciMLBase.ODEFunction(system::System, assembly)
     @assert !system.static
 
     # unpack system pointers
+    N = length(system.x)
+    nelem = length(assembly.elements)
+    npoint = length(assembly.points)
     irow_point = system.irow_point
     irow_elem = system.irow_elem
     irow_elem1 = system.irow_elem1
@@ -119,8 +133,8 @@ function SciMLBase.ODEFunction(system::System, assembly)
     force_scaling = system.force_scaling
 
     # DAE function
-    f = function(resid, u, p, t)
-
+    f = function(du, u, p, t)
+  
         # get current parameters
         prescribed_conditions = typeof(p[1]) <: AbstractDict ? p[1] : p[1](t)
         distributed_loads = typeof(p[2]) <: AbstractDict ? p[2] : p[2](t)
@@ -132,35 +146,75 @@ function SciMLBase.ODEFunction(system::System, assembly)
         a0 = typeof(p[8]) <: AbstractVector ? SVector{3}(p[8]) : SVector{3}(p[8](t))
         α0 = typeof(p[9]) <: AbstractVector ? SVector{3}(p[9]) : SVector{3}(p[9](t))
 
-        # calculate residual
-        steady_state_system_residual!(resid, u, assembly, prescribed_conditions,
-            distributed_loads, point_masses, gvec, force_scaling, irow_point, irow_elem, irow_elem1,
-            irow_elem2, icol_point, icol_elem, x0, v0, ω0, a0, α0)
+        # add contributions to residual equations from the beam elements
+        for ielem = 1:nelem
+    
+            # get pointers for element
+            icol = icol_elem[ielem]
+            irow_e = irow_elem[ielem]
+            irow_e1 = irow_elem1[ielem]
+            irow_p1 = irow_point[assembly.start[ielem]]
+            irow_e2 = irow_elem2[ielem]
+            irow_p2 = irow_point[assembly.stop[ielem]]
+    
+            # set state rates for element
+            udot = SVector(u[N+12*(ielem-1)+1], u[N+12*(ielem-1)+2], u[N+12*(ielem-1)+3])
+            θdot = SVector(u[N+12*(ielem-1)+4], u[N+12*(ielem-1)+5], u[N+12*(ielem-1)+6])
+            Vdot = SVector(u[N+12*(ielem-1)+7], u[N+12*(ielem-1)+8], u[N+12*(ielem-1)+9])
+            Ωdot = SVector(u[N+12*(ielem-1)+10], u[N+12*(ielem-1)+11], u[N+12*(ielem-1)+12])
+    
+            dynamic_element_residual!(du, u, ielem, assembly.elements[ielem],
+                 distributed_loads, point_masses, gvec, force_scaling, icol, irow_e, irow_e1, irow_p1, irow_e2, irow_p2,
+                 x0, v0, ω0, a0, α0, udot, θdot, Vdot, Ωdot)
+    
+        end
+    
+        # add contributions to the residual equations from the prescribed point conditions
+        for ipoint = 1:npoint
+    
+            # skip if the unknowns have been eliminated from the system of equations
+            if icol_point[ipoint] <= 0
+                continue
+            end
+    
+            icol = icol_point[ipoint]
+            irow_p = irow_point[ipoint]
+    
+            point_residual!(du, u, ipoint, assembly, prescribed_conditions,
+                force_scaling, icol, irow_p, irow_elem1, irow_elem2)
+        end
 
-        return resid
+        for i = N+1:N+12*nelem
+            du[i] = u[i]
+        end
+    
+        return du
     end
 
-    update_mass_matrix! = function(M, u, p, t)
-
-       point_masses = typeof(p[3]) <: AbstractDict ? p[3] : p[3](t)
-
-        # zero out all mass matrix entries
-        M .= 0.0
-
-        # calculate mass matrix
-        system_mass_matrix!(M, u, assembly, point_masses, force_scaling,
-            irow_point, irow_elem, irow_elem1, irow_elem2, icol_point, icol_elem)
-
-        return M
+    # construct mass matrix
+    mass_matrix = spzeros(N+12*nelem, N+12*nelem)
+    mass_matrix .= 0
+    for ielem = 1:nelem
+        irow = N+12*(ielem-1)+1
+        icol = icol_elem[ielem]
+        mass_matrix[irow, icol] = 1
+        mass_matrix[irow+1, icol+1] = 1
+        mass_matrix[irow+2, icol+2] = 1
+        mass_matrix[irow+3, icol+3] = 1
+        mass_matrix[irow+4, icol+4] = 1
+        mass_matrix[irow+5, icol+5] = 1
+        mass_matrix[irow+6, icol+12] = 1
+        mass_matrix[irow+7, icol+13] = 1
+        mass_matrix[irow+8, icol+14] = 1
+        mass_matrix[irow+9, icol+15] = 1
+        mass_matrix[irow+10, icol+16] = 1
+        mass_matrix[irow+11, icol+17] = 1
     end
 
-    mass_matrix = SciMLBase.DiffEqArrayOperator(copy(system.M), update_func = update_mass_matrix!)
-
-    # jacobian function with respect to states/state rates
+    # construct jacobian
     jac = function(J, u, p, t)
 
-        # zero out all jacobian entries
-        J .= 0.0
+        J .= 0
 
         # get current parameters
         prescribed_conditions = typeof(p[1]) <: AbstractDict ? p[1] : p[1](t)
@@ -173,25 +227,90 @@ function SciMLBase.ODEFunction(system::System, assembly)
         a0 = typeof(p[8]) <: AbstractVector ? SVector{3}(p[8]) : SVector{3}(p[8](t))
         α0 = typeof(p[9]) <: AbstractVector ? SVector{3}(p[9]) : SVector{3}(p[9](t))
 
-        # calculate jacobian
-        steady_state_system_jacobian!(J, u, assembly, prescribed_conditions,
-            distributed_loads, point_masses, gvec, force_scaling, irow_point, irow_elem, irow_elem1,
-            irow_elem2, icol_point, icol_elem, x0, v0, ω0, a0, α0)
+        # add contributions to residual equations from the beam elements
+        for ielem = 1:nelem
+    
+            # get pointers for element
+            icol1 = icol_elem[ielem]
+            icol2 = N+12*(ielem-1)+1
+            irow_e = irow_elem[ielem]
+            irow_p1 = irow_point[assembly.start[ielem]]
+            irow_p2 = irow_point[assembly.stop[ielem]]
+    
+            # use storage for the jacobian to calculate the mass matrix
+            element_mass_matrix!(J, u, ielem, assembly.elements[ielem], point_masses, 
+                force_scaling, icol1, irow_e, irow_p1, irow_p2)
 
+            # move jacobian entries into appropriate slots
+            for irange in (irow_e:irow_e+5, irow_p1:irow_p1+5, irow_p2:irow_p2+5)
+                for i in irange
+                    J[i, icol2] = J[i, icol1]
+                    J[i, icol2+1] = J[i, icol1+1]
+                    J[i, icol2+2] = J[i, icol1+2]
+                    J[i, icol2+3] = J[i, icol1+3]
+                    J[i, icol2+4] = J[i, icol1+4]
+                    J[i, icol2+5] = J[i, icol1+5]
+                    J[i, icol2+6] = J[i, icol1+12]
+                    J[i, icol2+7] = J[i, icol1+13]
+                    J[i, icol2+8] = J[i, icol1+14]
+                    J[i, icol2+9] = J[i, icol1+15]
+                    J[i, icol2+10] = J[i, icol1+16]
+                    J[i, icol2+11] = J[i, icol1+17]
+                end
+            end
+        end
+
+        # add contributions to residual equations from the beam elements
+        for ielem = 1:nelem
+    
+            # get pointers for element
+            icol = icol_elem[ielem]
+            irow_e = irow_elem[ielem]
+            irow_e1 = irow_elem1[ielem]
+            irow_p1 = irow_point[assembly.start[ielem]]
+            irow_e2 = irow_elem2[ielem]
+            irow_p2 = irow_point[assembly.stop[ielem]]
+    
+            # set state rates for element
+            udot = SVector(u[N+12*(ielem-1)+1], u[N+12*(ielem-1)+2], u[N+12*(ielem-1)+3])
+            θdot = SVector(u[N+12*(ielem-1)+4], u[N+12*(ielem-1)+5], u[N+12*(ielem-1)+6])
+            Vdot = SVector(u[N+12*(ielem-1)+7], u[N+12*(ielem-1)+8], u[N+12*(ielem-1)+9])
+            Ωdot = SVector(u[N+12*(ielem-1)+10], u[N+12*(ielem-1)+11], u[N+12*(ielem-1)+12])
+    
+            # compute the jacobian
+            dynamic_element_jacobian!(J, u, ielem, assembly.elements[ielem],
+                 distributed_loads, point_masses, gvec, force_scaling, icol, irow_e, irow_e1, irow_p1, irow_e2, irow_p2,
+                 x0, v0, ω0, a0, α0, udot, θdot, Vdot, Ωdot)
+
+        end
+    
+        # add contributions to the residual equations from the prescribed point conditions
+        for ipoint = 1:npoint
+    
+            # skip if the unknowns have been eliminated from the system of equations
+            if icol_point[ipoint] <= 0
+                continue
+            end
+    
+            icol = icol_point[ipoint]
+            irow_p = irow_point[ipoint]
+    
+            point_jacobian!(J, u, ipoint, assembly, prescribed_conditions,
+                force_scaling, icol, irow_p, irow_elem1, irow_elem2)
+        end
+
+        for i = N+1:N+12*nelem
+            J[i,i] = 1
+        end
+    
         return J
     end
 
-    # sparsity structure
-    sparsity = get_sparsity(system, assembly)
+    jac_prototype = similar(system.K, N+12*nelem, N+12*nelem)
 
-    # jacobian prototype (use dense since sparse isn't working)
-    jac_prototype = collect(system.K)
-
-    # TODO: figure out how to use a sparse matrix here.
-    # It's failing with a singular exception during the LU factorization.
-
-    return SciMLBase.ODEFunction{true,true}(f; mass_matrix, jac)
+    return SciMLBase.ODEFunction{true,true}(f; mass_matrix, jac, jac_prototype)
 end
+
 
 """
     DAEProblem(system::GXBeam.System, assembly, tspan; kwargs...)
@@ -374,11 +493,8 @@ function SciMLBase.DAEFunction(system::System, assembly)
         return J
     end
 
-    # sparsity structure
-    sparsity = get_sparsity(system, assembly)
-
     # jacobian prototype (use dense since sparse isn't working)
-    # jac_prototype = collect(system.K)
+    jac_prototype = system.K
 
     # TODO: figure out how to use a sparse matrix here.
     # It's failing with a singular exception during the LU factorization.

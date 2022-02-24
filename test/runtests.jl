@@ -1144,7 +1144,7 @@ end
     L = 60 # m
 
     # create points
-    nelem = 10
+    nelem = 1
     x = range(0, L, length=nelem+1)
     y = zero(x)
     z = zero(x)

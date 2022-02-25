@@ -4,9 +4,6 @@
 Construct a `ODEProblem` for the system of nonlinear beams
 contained in `assembly` which may be used with the DifferentialEquations package.
 
-**Note that this function defines a non-constant mass matrix, which is not directly 
-supported by DifferentialEquations.jl.  This function is therefore experimental**
-
 Keyword Arguments:
  - `prescribed_conditions = Dict{Int,PrescribedConditions{Float64}}()`:
         A dictionary with keys corresponding to the points at
@@ -37,23 +34,10 @@ Keyword Arguments:
  - `angular_acceleration = zeros(3)`: Global frame angular acceleration vector. If time
        varying, this vector may be provided as a function of time.
 """
-function SciMLBase.ODEProblem(system::System, assembly, tspan;
-    prescribed_conditions = Dict{Int,PrescribedConditions{Float64}}(),
-    distributed_loads = Dict{Int,DistributedLoads{Float64}}(),
-    point_masses = Dict{Int,Vector{PointMass{Float64}}}(),
-    gravity = (@SVector zeros(3)),
-    origin = (@SVector zeros(3)),
-    linear_velocity = (@SVector zeros(3)),
-    angular_velocity = (@SVector zeros(3)),
-    linear_acceleration = (@SVector zeros(3)),
-    angular_acceleration = (@SVector zeros(3)),
-    )
+function SciMLBase.ODEProblem(system::System, assembly, tspan; kwargs...)
 
     N = length(system.x)
     nelem = length(assembly.elements)
-
-    # create ODEFunction
-    func = SciMLBase.ODEFunction(system, assembly)
 
     # use initial state from `system`
     u0 = similar(system.x, N + 12*nelem)
@@ -66,15 +50,15 @@ function SciMLBase.ODEProblem(system::System, assembly, tspan;
         u0[icol+10:icol+12] = system.Ωdot[ielem]
     end
 
-    # set parameters
-    p = (prescribed_conditions, distributed_loads, point_masses, gravity, origin, 
-        linear_velocity, angular_velocity, linear_acceleration, angular_acceleration)
+    # create ODEFunction
+    func = SciMLBase.ODEFunction(system, assembly; kwargs...)
 
-    return SciMLBase.ODEProblem{true}(func, u0, tspan, p)
+    return SciMLBase.ODEProblem{true}(func, u0, tspan)
 end
 
 """
-    ODEFunction(system::GXBeam.System, assembly)
+    ODEFunction(system::GXBeam.System, assembly; 
+    )
 
 Construct a `ODEFunction` for the system of nonlinear beams
 contained in `assembly` which may be used with the DifferentialEquations package.
@@ -113,7 +97,17 @@ angular_velocity, linear_acceleration, angular_acceleration)` where each paramet
  - `angular_acceleration = zeros(3)`: Global frame angular acceleration vector. If time
        varying, this vector may be provided as a function of time.
 """
-function SciMLBase.ODEFunction(system::System, assembly)
+function SciMLBase.ODEFunction(system::System, assembly;
+    prescribed_conditions = Dict{Int,PrescribedConditions{Float64}}(),
+    distributed_loads = Dict{Int,DistributedLoads{Float64}}(),
+    point_masses = Dict{Int,Vector{PointMass{Float64}}}(),
+    gravity = (@SVector zeros(3)),
+    origin = (@SVector zeros(3)),
+    linear_velocity = (@SVector zeros(3)),
+    angular_velocity = (@SVector zeros(3)),
+    linear_acceleration = (@SVector zeros(3)),
+    angular_acceleration = (@SVector zeros(3)),
+    )
 
     # check to make sure the system isn't static
     @assert !system.static
@@ -134,17 +128,17 @@ function SciMLBase.ODEFunction(system::System, assembly)
 
     # DAE function
     f = function(du, u, p, t)
-  
+
         # get current parameters
-        prescribed_conditions = typeof(p[1]) <: AbstractDict ? p[1] : p[1](t)
-        distributed_loads = typeof(p[2]) <: AbstractDict ? p[2] : p[2](t)
-        point_masses = typeof(p[3]) <: AbstractDict ? p[3] : p[3](t)
-        gvec = typeof(p[4]) <: AbstractVector ? SVector{3}(p[4]) : SVector{3}(p[4](t))
-        x0 = typeof(p[5]) <: AbstractVector ? SVector{3}(p[5]) : SVector{3}(p[5](t))
-        v0 = typeof(p[6]) <: AbstractVector ? SVector{3}(p[6]) : SVector{3}(p[6](t))
-        ω0 = typeof(p[7]) <: AbstractVector ? SVector{3}(p[7]) : SVector{3}(p[7](t))
-        a0 = typeof(p[8]) <: AbstractVector ? SVector{3}(p[8]) : SVector{3}(p[8](t))
-        α0 = typeof(p[9]) <: AbstractVector ? SVector{3}(p[9]) : SVector{3}(p[9](t))
+        pcond = typeof(prescribed_conditions) <: AbstractDict ? prescribed_conditions : prescribed_conditions(t)
+        dload = typeof(distributed_loads) <: AbstractDict ? distributed_loads : distributed_loads(t)
+        pmass = typeof(point_masses) <: AbstractDict ? point_masses : point_masses(t)
+        gvec = typeof(gravity) <: AbstractVector ? SVector{3}(gravity) : SVector{3}(gravity(t))
+        x0 = typeof(origin) <: AbstractVector ? SVector{3}(origin) : SVector{3}(origin(t))
+        v0 = typeof(linear_velocity) <: AbstractVector ? SVector{3}(linear_velocity) : SVector{3}(linear_velocity(t))
+        ω0 = typeof(angular_velocity) <: AbstractVector ? SVector{3}(angular_velocity) : SVector{3}(angular_velocity(t))
+        a0 = typeof(linear_acceleration) <: AbstractVector ? SVector{3}(linear_acceleration) : SVector{3}(linear_acceleration(t))
+        α0 = typeof(angular_acceleration) <: AbstractVector ? SVector{3}(angular_acceleration) : SVector{3}(angular_acceleration(t))
 
         # add contributions to residual equations from the beam elements
         for ielem = 1:nelem
@@ -164,7 +158,7 @@ function SciMLBase.ODEFunction(system::System, assembly)
             Ωdot = SVector(u[N+12*(ielem-1)+10], u[N+12*(ielem-1)+11], u[N+12*(ielem-1)+12])
     
             dynamic_element_residual!(du, u, ielem, assembly.elements[ielem],
-                 distributed_loads, point_masses, gvec, force_scaling, icol, irow_e, irow_e1, irow_p1, irow_e2, irow_p2,
+                 dload, pmass, gvec, force_scaling, icol, irow_e, irow_e1, irow_p1, irow_e2, irow_p2,
                  x0, v0, ω0, a0, α0, udot, θdot, Vdot, Ωdot)
     
         end
@@ -180,8 +174,8 @@ function SciMLBase.ODEFunction(system::System, assembly)
             icol = icol_point[ipoint]
             irow_p = irow_point[ipoint]
     
-            point_residual!(du, u, ipoint, assembly, prescribed_conditions,
-                force_scaling, icol, irow_p, irow_elem1, irow_elem2)
+            point_residual!(du, u, ipoint, assembly, pcond, force_scaling, icol, irow_p, 
+                irow_elem1, irow_elem2)
         end
 
         for i = N+1:N+12*nelem
@@ -217,15 +211,15 @@ function SciMLBase.ODEFunction(system::System, assembly)
         J .= 0
 
         # get current parameters
-        prescribed_conditions = typeof(p[1]) <: AbstractDict ? p[1] : p[1](t)
-        distributed_loads = typeof(p[2]) <: AbstractDict ? p[2] : p[2](t)
-        point_masses = typeof(p[3]) <: AbstractDict ? p[3] : p[3](t)
-        gvec = typeof(p[4]) <: AbstractVector ? SVector{3}(p[4]) : SVector{3}(p[4](t))
-        x0 = typeof(p[5]) <: AbstractVector ? SVector{3}(p[5]) : SVector{3}(p[5](t))
-        v0 = typeof(p[6]) <: AbstractVector ? SVector{3}(p[6]) : SVector{3}(p[6](t))
-        ω0 = typeof(p[7]) <: AbstractVector ? SVector{3}(p[7]) : SVector{3}(p[7](t))
-        a0 = typeof(p[8]) <: AbstractVector ? SVector{3}(p[8]) : SVector{3}(p[8](t))
-        α0 = typeof(p[9]) <: AbstractVector ? SVector{3}(p[9]) : SVector{3}(p[9](t))
+        pcond = typeof(prescribed_conditions) <: AbstractDict ? prescribed_conditions : prescribed_conditions(t)
+        dload = typeof(distributed_loads) <: AbstractDict ? distributed_loads : distributed_loads(t)
+        pmass = typeof(point_masses) <: AbstractDict ? point_masses : point_masses(t)
+        gvec = typeof(gravity) <: AbstractVector ? SVector{3}(gravity) : SVector{3}(gravity(t))
+        x0 = typeof(origin) <: AbstractVector ? SVector{3}(origin) : SVector{3}(origin(t))
+        v0 = typeof(linear_velocity) <: AbstractVector ? SVector{3}(linear_velocity) : SVector{3}(linear_velocity(t))
+        ω0 = typeof(angular_velocity) <: AbstractVector ? SVector{3}(angular_velocity) : SVector{3}(angular_velocity(t))
+        a0 = typeof(linear_acceleration) <: AbstractVector ? SVector{3}(linear_acceleration) : SVector{3}(linear_acceleration(t))
+        α0 = typeof(angular_acceleration) <: AbstractVector ? SVector{3}(angular_acceleration) : SVector{3}(angular_acceleration(t))
 
         # add contributions to residual equations from the beam elements
         for ielem = 1:nelem
@@ -238,7 +232,7 @@ function SciMLBase.ODEFunction(system::System, assembly)
             irow_p2 = irow_point[assembly.stop[ielem]]
     
             # use storage for the jacobian to calculate the mass matrix
-            element_mass_matrix!(J, u, ielem, assembly.elements[ielem], point_masses, 
+            element_mass_matrix!(J, u, ielem, assembly.elements[ielem], pmass, 
                 force_scaling, icol1, irow_e, irow_p1, irow_p2)
 
             # move jacobian entries into appropriate slots
@@ -279,7 +273,7 @@ function SciMLBase.ODEFunction(system::System, assembly)
     
             # compute the jacobian
             dynamic_element_jacobian!(J, u, ielem, assembly.elements[ielem],
-                 distributed_loads, point_masses, gvec, force_scaling, icol, irow_e, irow_e1, irow_p1, irow_e2, irow_p2,
+                 dload, pmass, gvec, force_scaling, icol, irow_e, irow_e1, irow_p1, irow_e2, irow_p2,
                  x0, v0, ω0, a0, α0, udot, θdot, Vdot, Ωdot)
 
         end
@@ -295,7 +289,7 @@ function SciMLBase.ODEFunction(system::System, assembly)
             icol = icol_point[ipoint]
             irow_p = irow_point[ipoint]
     
-            point_jacobian!(J, u, ipoint, assembly, prescribed_conditions,
+            point_jacobian!(J, u, ipoint, assembly, pcond,
                 force_scaling, icol, irow_p, irow_elem1, irow_elem2)
         end
 

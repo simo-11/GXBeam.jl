@@ -46,15 +46,11 @@ prescribed_conditions = (t) -> begin
     )
 end
 
-nothing #hide
-
 # simulation time
 t = 0:0.001:2.0
 
 system, gxbeam_history, converged = time_domain_analysis(assembly, t;
     prescribed_conditions = prescribed_conditions)
-
-nothing #hide
 
 using DifferentialEquations
 
@@ -70,12 +66,8 @@ prob = DAEProblem(system, assembly, tspan; prescribed_conditions)
 # solve DAEProblem
 sol = solve(prob, DABDF2())
 
-nothing #hide
-
 diffeq_history = [AssemblyState(system, assembly, sol[it]; prescribed_conditions)
     for it in eachindex(sol)]
-
-nothing #hide
 
 using Plots
 pyplot()
@@ -92,8 +84,8 @@ ylabel = ["\$u_x\$ (\$m\$)", "\$u_y\$ (\$m\$)", "\$u_z\$ (\$m\$)",
     "\$M_x\$ (\$Nm\$)", "\$M_y\$ (\$Nm\$)", "\$M_z\$ (\$N\$)"]
 
 for i = 1:12
-    local y #hide
-    plot(
+    #md local y #hide
+   plot(
         xlim = (0, 2.0),
         xticks = 0:0.5:2.0,
         xlabel = "Time (s)",
@@ -125,8 +117,6 @@ for i = 1:12
     plot!(sol.t, y_diffeq, label="DifferentialEquations")
     plot!(show=true)
 end
-
-nothing #hide
 
 root_chord = 1.9000
 tip_chord =  0.4540

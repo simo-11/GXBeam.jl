@@ -91,8 +91,6 @@ t = range(0, 0.04, length=1001)
 system, history, converged = time_domain_analysis(assembly, t;
     prescribed_conditions=prescribed_conditions)
 
-nothing #hide
-
 using Plots
 pyplot()
 
@@ -129,8 +127,6 @@ for i = 1:12
     plot!(t, y, label="")
     plot!(show=true)
 end
-
-nothing #hide
 
 airfoil  = [ #FX 60-100 airfoil
     0.0000000 0.0000000;

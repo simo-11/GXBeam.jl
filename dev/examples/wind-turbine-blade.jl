@@ -52,8 +52,6 @@ t = 0:0.001:2.0
 system, history, converged = time_domain_analysis(assembly, t;
     prescribed_conditions = prescribed_conditions)
 
-nothing #hide
-
 using Plots
 pyplot()
 
@@ -71,7 +69,7 @@ for i = 1:12
 
     local y
 
-    plot(
+   plot(
         xlim = (0, 2.0),
         xticks = 0:0.5:2.0,
         xlabel = "Time (s)",
@@ -96,8 +94,6 @@ for i = 1:12
     plot!(t, y, label="")
     plot!(show=true)
 end
-
-nothing #hide
 
 root_chord = 1.9000
 tip_chord =  0.4540

@@ -187,8 +187,6 @@ for i = 1:length(Fz)
 
 end
 
-nothing #hide
-
 using Plots
 pyplot()
 
@@ -210,7 +208,6 @@ plot!(uz_l, Fz./1e3, label="Linear")
 plot!(uz_nl, Fz./1e3, label="Nonlinear with Dead Force")
 plot!(uz_fnl, Fz./1e3, label="Nonlinear with Follower Force")
 plot!(show=true)
-nothing #hide
 
 airfoil  = [ #FX 60-100 airfoil
     0.0000000 0.0000000;

@@ -100,7 +100,6 @@ nothing ##hide
 
 using Plots
 pyplot()
-nothing #hide
 
 # root moment
 plot(
@@ -117,7 +116,6 @@ Mz_l = [-linear_states[i].points[1].M[3] for i = 1:length(rpm)]
 plot!(rpm, Mz_nl, label="Nonlinear")
 plot!(rpm, Mz_l, label="Linear")
 plot!(show=true)
-nothing #hide
 
 # x tip deflection
 plot(
@@ -134,9 +132,8 @@ ux_nl = [nonlinear_states[i].points[end].u[1] for i = 1:length(rpm)]
 ux_l = [linear_states[i].points[end].u[1] for i = 1:length(rpm)]
 plot!(rpm, ux_nl, label="Nonlinear")
 plot!(rpm, ux_l, label="Linear")
-plot!(show=true)
 
-nothing #hide
+plot!(show=true)
 
 # y tip deflection
 plot(
@@ -153,9 +150,8 @@ uy_nl = [nonlinear_states[i].points[end].u[2] for i = 1:length(rpm)]
 uy_l = [linear_states[i].points[end].u[2] for i = 1:length(rpm)]
 plot!(rpm, uy_nl, label="Nonlinear")
 plot!(rpm, uy_l, label="Linear")
-plot!(show=true)
 
-nothing #hide
+plot!(show=true)
 
 # rotation of the tip
 plot(
@@ -173,9 +169,8 @@ theta_z_l = [4*atan(linear_states[i].points[end].theta[3]/4)
 
 plot!(rpm, theta_z_nl, label="Nonlinear")
 plot!(rpm, theta_z_l, label="Linear")
-plot!(show=true)
 
-nothing #hide
+plot!(show=true)
 
 sweep = (0:2.5:45) * pi/180
 rpm = [0, 500, 750]
@@ -262,8 +257,6 @@ for i = 1:length(sweep)
     end
 end
 
-nothing #hide
-
 # set previous left eigenvector matrix
 U_p = copy(U[1,1])
 
@@ -291,8 +284,6 @@ end
 frequency = [[imag(λ[i,j][k])/(2*pi) for i = 1:length(sweep), j=1:length(rpm)]
     for k = 1:2:nev]
 
-nothing #hide
-
 names = ["First Bending Mode", "Second Bending Mode", "Third Bending Mode"]
 indices = [1, 2, 4]
 
@@ -309,9 +300,8 @@ experiment_frequencies = [
      47.0 44.4 39.3 35.1;
      62.9 55.9 48.6 44.8]
 ]
-nothing #hide
 
-for k = 1:length(indices)
+for k = 1:3
     plot(
         title = names[k],
         xticks = 0:15:45,
@@ -334,7 +324,6 @@ for k = 1:length(indices)
 
     plot!(show=true)
 end
-nothing #hide
 
 names = ["1T/5B", "5B/1T", "4B/1T"]
 indices = [5, 7, 6]
@@ -365,7 +354,6 @@ for k = 1:length(indices)
     scatter!(experiment_sweep, experiment_frequencies[k,:], label="", color=k)
 end
 plot!(show=true)
-nothing #hide
 
 # write the response to vtk files for visualization using ParaView
 write_vtk("rotating-eigenmode", assembly, state[end,end],

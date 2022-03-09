@@ -48,8 +48,6 @@ system, converged = static_analysis(assembly;
 state = AssemblyState(system, assembly;
     prescribed_conditions = prescribed_conditions)
 
-nothing #hide
-
 # construct analytical solution
 dx = 1e-6
 x_a = 0.0:dx:L
@@ -67,11 +65,8 @@ theta_a = -atan.(slope_a)
 # switch analytical system frame of reference
 M_a = -M_a
 
-nothing #hide
-
 using Plots
 pyplot()
-nothing #hide
 
 # deflection plot
 plot(
@@ -90,8 +85,6 @@ plot!(x_a, deflection_a, label="Analytical")
 scatter!(x, deflection, label="GXBeam")
 plot!(show=true)
 
-nothing #hide
-
 # elastic twist plot (euler angle)
 plot(
     xlim = (0.0, 1.0),
@@ -109,7 +102,6 @@ theta = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint =
 plot!(x_a, theta_a, label="Analytical")
 scatter!(x, theta, label="GXBeam")
 plot!(show=true)
-nothing #hide
 
 # bending moment plot
 plot(
@@ -127,7 +119,6 @@ M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label="Analytical")
 scatter!(x, M, label="GXBeam")
 plot!(show=true)
-nothing #hide
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

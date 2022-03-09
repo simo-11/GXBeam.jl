@@ -535,9 +535,8 @@ end
 # Add legend entries
 plot!([0], [0], color=:black, label="Experimental")
 plot!([0], [0], color=:red, label="GXBeam")
-plot!(show=true)
 
-nothing #hide
+plot!(show=true)
 
 state = AssemblyState(system, assembly; prescribed_conditions=prescribed_conditions)
 

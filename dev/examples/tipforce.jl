@@ -51,8 +51,6 @@ for i = 1:length(P)
 
 end
 
-nothing #hide
-
 import Elliptic
 
 δ = range(pi/4, pi/2, length=10^5)[2:end-1]
@@ -66,11 +64,8 @@ k = @. cos(pi/4)/sin(δ)
 
 η_a = @. 1-2/sqrt(λ_a)*(Elliptic.E(pi/2, k^2) - Elliptic.E(δ, k^2))
 
-nothing #hide
-
 using Plots
 pyplot()
-nothing #hide
 
 u = [states[i].points[end].u[1] for i = 1:length(P)]
 θ = [states[i].points[end].theta[2] for i = 1:length(P)]
@@ -104,7 +99,6 @@ plot!(λ_a, θ_a*2/pi, color=3, label="")
 scatter!(λ, -4*atan.(θ/4)*2/pi, color=3, label="")
 
 plot!(show=true)
-nothing #hide
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

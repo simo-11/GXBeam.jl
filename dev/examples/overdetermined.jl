@@ -46,7 +46,6 @@ system, converged = static_analysis(assembly;
 # post-process the results
 state = AssemblyState(system, assembly;
     prescribed_conditions = prescribed_conditions)
-nothing #hide
 
 # construct analytical solution
 x_a = range(0.0, L, length=1000)
@@ -58,11 +57,9 @@ theta_a = -atan.(slope_a)
 
 # adjust coordinate system of analytical solution
 M_a = -M_a
-nothing #hide
 
 using Plots
 pyplot()
-nothing #hide
 
 plot(
     xlim = (0.0, 1.0),
@@ -79,7 +76,6 @@ deflection = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
 plot!(x_a, w_a, label="Analytical")
 scatter!(x, deflection, label="GXBeam")
 plot!(show=true)
-nothing #hide
 
 plot(
     xlim = (0.0, 1.0),
@@ -97,7 +93,6 @@ theta = [4*atan.(state.points[ipoint].theta[2]/4)
 plot!(x_a, theta_a, label="Analytical")
 scatter!(x, theta, label="GXBeam")
 plot!(show=true)
-nothing #hide
 
 plot(
     xlim = (0.0, 1.0),
@@ -114,7 +109,6 @@ M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label="Analytical")
 scatter!(x, M, label="GXBeam")
 plot!(show=true)
-nothing #hide
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

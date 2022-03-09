@@ -55,15 +55,11 @@ for i = 1:length(M)
 
 end
 
-nothing #hide
-
 # analytical solution (ρ = E*I/M)
 analytical(x, ρ) = ifelse(ρ == Inf, zeros(3), [ρ*sin(x/ρ)-x, ρ*(1-cos(x/ρ)), 0])
-nothing #hide
 
 using Plots
 pyplot()
-nothing #hide
 
 # set up the plot
 plot(
@@ -102,7 +98,6 @@ for i = 1:length(M)
     plot!(x/L, y/L, label="\$\\lambda\$=$(λ[i])", color=i)
 end
 plot!(show=true)
-nothing #hide
 
 grid_sizes = unique(round.(Int, 10 .^ range(0,3,length=25)))
 
@@ -159,8 +154,6 @@ for (igrid, nelem) in enumerate(grid_sizes)
 
 end
 
-nothing #hide
-
 # calculate analytical solution
 dxa, dya = analytical(L, E*Iyy/M)
 
@@ -172,11 +165,8 @@ dy = [states[igrid].points[end].u[2] for igrid = 1:length(grid_sizes)]
 εx = abs.((dx .- dxa) ./ dxa)
 εy = abs.((dy .- dya) ./ dya)
 
-nothing #hide
-
 using Plots
 pyplot()
-nothing #hide
 
 # plot the x-error
 p1 = plot(grid_sizes .+ 1, εx, label="",
@@ -191,7 +181,7 @@ p1 = plot(grid_sizes .+ 1, εx, label="",
     overwrite_figure=false,
     show=true)
 
-nothing #hide
+plot!(show=true)
 
 # plot the y-error
 p2 = plot(grid_sizes .+ 1, εy, label="",
@@ -206,7 +196,7 @@ p2 = plot(grid_sizes .+ 1, εy, label="",
     overwrite_figure=false,
     show=true)
 
-nothing #hide
+plot!(show=true)
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

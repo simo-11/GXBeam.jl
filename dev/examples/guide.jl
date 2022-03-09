@@ -1,24 +1,19 @@
 import Pkg
 Pkg.add("GXBeam")
-nothing #hide
 
 using GXBeam, LinearAlgebra
-nothing #hide
 
 # straight section of the beam
 L_b1 = 31.5 # length of straight section of the beam in inches
 r_b1 = [2.5, 0, 0] # starting point of straight section of the beam
 nelem_b1 = 10 # number of elements in the straight section of the beam
 lengths_b1, xp_b1, xm_b1, Cab_b1 = discretize_beam(L_b1, r_b1, nelem_b1)
-nothing #hide
 
 # normalized element endpoints in the straight section of the beam
 disc_b1 = range(0, 1, length=nelem_b1+1)
 
 # discretize straight beam section
 lengths_b1, xp_b1, xm_b1, Cab_b1 = discretize_beam(L_b1, r_b1, disc_b1)
-
-nothing #hide
 
 sweep = 45 * pi/180
 
@@ -32,7 +27,6 @@ e3 = [0, 0, 1] # axis 3
 frame_b2 = hcat(e1, e2, e3) # transformation matrix from local to body frame
 lengths_b2, xp_b2, xm_b2, Cab_b2 = discretize_beam(L_b2, r_b2, nelem_b2;
     frame = frame_b2)
-nothing #hide
 
 # combine elements and points into one array
 nelem = nelem_b1 + nelem_b2 # total number of elements
@@ -43,7 +37,6 @@ lengths = vcat(lengths_b1, lengths_b2) # length of each beam element in our asse
 midpoints = vcat(xm_b1, xm_b2) # midpoint of each beam element in our assembly
 Cab = vcat(Cab_b1, Cab_b2) # transformation matrix from local to body frame
                            # for each beam element in our assembly
-nothing #hide
 
 # cross section
 w = 1 # inch
@@ -75,7 +68,6 @@ compliance = fill(Diagonal([1/(E*A), 1/(G*Ay), 1/(G*Az), 1/(G*Jx), 1/(E*Iyy),
     1/(E*Izz)]), nelem)
 
 mass = fill(Diagonal([ρ*A, ρ*A, ρ*A, ρ*J, ρ*Iyy, ρ*Izz]), nelem)
-nothing #hide
 
 assembly = Assembly(points, start, stop;
    compliance = compliance,
@@ -83,7 +75,6 @@ assembly = Assembly(points, start, stop;
    frames = Cab,
    lengths = lengths,
    midpoints = midpoints)
-nothing #hide
 
 write_vtk("rotating-geometry", assembly)
 
@@ -96,20 +87,16 @@ point_masses = Dict(
     nelem => PointMass(m, p, J)
     )
 
-nothing #hide
-
 distributed_loads = Dict()
 for ielem in 1:nelem
     distributed_loads[ielem] = DistributedLoads(assembly, ielem; fz = (s) -> 10)
 end
-nothing #hide
 
 distributed_loads = Dict()
 for ielem in 1:nelem
     distributed_loads[ielem] = DistributedLoads(assembly, ielem;
         fz_follower = (s) -> 10)
 end
-nothing #hide
 
 # create dictionary of prescribed conditions
 prescribed_conditions = Dict(
@@ -117,13 +104,9 @@ prescribed_conditions = Dict(
     1 => PrescribedConditions(ux=0, uy=0, uz=0, theta_x=0, theta_y=0, theta_z=0)
     )
 
-nothing #hide
-
 system = System(assembly, false)
-nothing #hide
 
 system = System(assembly, false; prescribed_points=[1, nelem+1])
-nothing #hide
 
 rpm = 0:25:750
 
@@ -162,11 +145,8 @@ for i = 1:length(rpm)
 
 end
 
-nothing #hide
-
 using Plots
 pyplot()
-nothing #hide
 
 # root moment
 plot(
@@ -183,7 +163,6 @@ Mz_l = [-linear_states[i].points[1].M[3] for i = 1:length(rpm)]
 plot!(rpm, Mz_nl, label="Nonlinear")
 plot!(rpm, Mz_l, label="Linear")
 plot!(show=true)
-nothing #hide
 
 # x tip deflection
 plot(
@@ -201,7 +180,6 @@ ux_l = [linear_states[i].points[end].u[1] for i = 1:length(rpm)]
 plot!(rpm, ux_nl, label="Nonlinear")
 plot!(rpm, ux_l, label="Linear")
 plot!(show=true)
-nothing #hide
 
 # y tip deflection
 plot(
@@ -219,7 +197,6 @@ uy_l = [linear_states[i].points[end].u[2] for i = 1:length(rpm)]
 plot!(rpm, uy_nl, label="Nonlinear")
 plot!(rpm, uy_l, label="Linear")
 plot!(show=true)
-nothing #hide
 
 # rotation of the tip
 plot(
@@ -238,7 +215,6 @@ theta_z_l = [4*atan(linear_states[i].points[end].theta[3]/4)
 plot!(rpm, theta_z_nl, label="Nonlinear")
 plot!(rpm, theta_z_l, label="Linear")
 plot!(show=true)
-nothing #hide
 
 # This file was generated using Literate.jl, https://github.com/fredrikekre/Literate.jl
 

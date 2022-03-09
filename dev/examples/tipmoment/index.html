@@ -75,6 +75,9 @@ plot!([], [], color=:black, label=&quot;Analytical&quot;)
 
 # plot the data
 for i = 1:length(M)
+
+    local x, y
+
     # GXBeam
     x = [assembly.points[ipoint][1] + states[i].points[ipoint].u[1] for ipoint =
         1:length(assembly.points)]
@@ -89,10 +92,7 @@ for i = 1:length(M)
     y = getindex.(deflection, 2)
     plot!(x/L, y/L, label=&quot;\$\\lambda\$=$(λ[i])&quot;, color=i)
 end
-plot!(show=true)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
-└ @ tipmoment.md:121
-┌ Warning: Assignment to `y` in soft scope is ambiguous because a global variable by the same name exists: `y` will be treated as a new local. Disambiguate by using `local y` to suppress this warning or `global y` to assign to the existing global variable.
-└ @ tipmoment.md:123</code></pre><p><img src="../assets/tipmoment-deflection.svg" alt/></p><p>We can use this problem to test the accuracy and convergence of this package.  To do so we set <span>$\lambda = 1$</span> and repeat the analysis for a variety of grid sizes.  We measure the normalized tip displacement error <span>$\varepsilon(u)$</span> using the following expression</p><p class="math-container">\[\varepsilon(u) = \left| \frac{u - u^a}{u^a} \right|\]</p><p>where <span>$u$</span> is the calculated tip displacement (at x=L) and <span>$u^a$</span> is the analytical tip displacement.</p><pre><code class="language-julia hljs">grid_sizes = unique(round.(Int, 10 .^ range(0,3,length=25)))
+plot!(show=true)</code></pre><p><img src="../assets/tipmoment-deflection.svg" alt/></p><p>We can use this problem to test the accuracy and convergence of this package.  To do so we set <span>$\lambda = 1$</span> and repeat the analysis for a variety of grid sizes.  We measure the normalized tip displacement error <span>$\varepsilon(u)$</span> using the following expression</p><p class="math-container">\[\varepsilon(u) = \left| \frac{u - u^a}{u^a} \right|\]</p><p>where <span>$u$</span> is the calculated tip displacement (at x=L) and <span>$u^a$</span> is the analytical tip displacement.</p><pre><code class="language-julia hljs">grid_sizes = unique(round.(Int, 10 .^ range(0,3,length=25)))
 
 L = 12 # inches
 h = w = 1 # inches
@@ -166,7 +166,7 @@ p1 = plot(grid_sizes .+ 1, εx, label=&quot;&quot;,
     ylim = (-Inf, 10^0),
     ytick = 10.0 .^ -(0:7),
     overwrite_figure=false,
-    show=true)</code></pre><p><img src="../assets/tipmoment-x-convergence.svg" alt/></p><pre><code class="language-julia hljs"># plot the y-error
+    show=true)</code></pre><p><img src="../../assets/tipmoment-x-convergence.svg" alt/></p><pre><code class="language-julia hljs"># plot the y-error
 p2 = plot(grid_sizes .+ 1, εy, label=&quot;&quot;,
     xlabel = &quot;Number of Nodes&quot;,
     xaxis=:log,
@@ -177,4 +177,4 @@ p2 = plot(grid_sizes .+ 1, εy, label=&quot;&quot;,
     ylim = (-Inf, 10^0),
     ytick = 10.0 .^ -(0:7),
     overwrite_figure=false,
-    show=true)</code></pre><p><img src="../assets/tipmoment-y-convergence.svg" alt/></p><p>We observe second-order algebraic convergence for both x and y tip displacement errors. We can therefore conclude that a large number of elements are likely necessary in order to obtain highly accurate solutions using this package.  For problems where high accuracy solutions are critical, higher order shape functions, such as the Legendre spectral finite elements used by <a href="https://www.nrel.gov/wind/nwtc/beamdyn.html">BeamDyn</a> are likely more computationally efficient.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../tipforce/">« Cantilever with a Tip Force</a><a class="docs-footer-nextpage" href="../curved/">Bending of an Initially Curved Beam »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Wednesday 9 March 2022 00:58">Wednesday 9 March 2022</span>. Using Julia version 1.6.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+    show=true)</code></pre><p><img src="../../assets/tipmoment-y-convergence.svg" alt/></p><p>We observe second-order algebraic convergence for both x and y tip displacement errors. We can therefore conclude that a large number of elements are likely necessary in order to obtain highly accurate solutions using this package.  For problems where high accuracy solutions are critical, higher order shape functions, such as the Legendre spectral finite elements used by <a href="https://www.nrel.gov/wind/nwtc/beamdyn.html">BeamDyn</a> are likely more computationally efficient.</p><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../tipforce/">« Cantilever with a Tip Force</a><a class="docs-footer-nextpage" href="../curved/">Bending of an Initially Curved Beam »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Wednesday 9 March 2022 01:13">Wednesday 9 March 2022</span>. Using Julia version 1.6.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

@@ -84,6 +84,9 @@ plot!([], [], color=:black, label="Analytical")
 
 # plot the data
 for i = 1:length(M)
+
+    local x, y
+
     # GXBeam
     x = [assembly.points[ipoint][1] + states[i].points[ipoint].u[1] for ipoint =
         1:length(assembly.points)]

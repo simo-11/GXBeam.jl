@@ -78,8 +78,7 @@ x = [assembly.points[ipoint][1] + state.points[ipoint].u[1] for ipoint =
 deflection = [state.points[ipoint].u[3] for ipoint = 1:length(assembly.points)]
 plot!(x_a, deflection_a, label=&quot;Analytical&quot;)
 scatter!(x, deflection, label=&quot;GXBeam&quot;)
-plot!(show=true)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
-└ @ cantilever.md:116</code></pre><p><img src="../../assets/cantilever-deflection.svg" alt/></p><pre><code class="language-julia hljs"># elastic twist plot (euler angle)
+plot!(show=true)</code></pre><p><img src="../../assets/cantilever-deflection.svg" alt/></p><pre><code class="language-julia hljs"># elastic twist plot (euler angle)
 plot(
     xlim = (0.0, 1.0),
     xticks = 0.0:0.2:1.0,
@@ -95,8 +94,7 @@ theta = [4*atan.(state.points[ipoint].theta[2]/4) for ipoint =
     1:length(assembly.points)]
 plot!(x_a, theta_a, label=&quot;Analytical&quot;)
 scatter!(x, theta, label=&quot;GXBeam&quot;)
-plot!(show=true)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
-└ @ cantilever.md:144</code></pre><p><img src="../../assets/cantilever-twist.svg" alt/></p><pre><code class="language-julia hljs"># bending moment plot
+plot!(show=true)</code></pre><p><img src="../../assets/cantilever-twist.svg" alt/></p><pre><code class="language-julia hljs"># bending moment plot
 plot(
     xlim = (0.0, 1.0),
     xticks = 0.0:0.2:1.0,
@@ -111,8 +109,7 @@ x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for
 M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label=&quot;Analytical&quot;)
 scatter!(x, M, label=&quot;GXBeam&quot;)
-plot!(show=true)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">┌ Warning: Assignment to `x` in soft scope is ambiguous because a global variable by the same name exists: `x` will be treated as a new local. Disambiguate by using `local x` to suppress this warning or `global x` to assign to the existing global variable.
-└ @ cantilever.md:172</code></pre><p><img src="../../assets/cantilever-moment.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><p>Here&#39;s the complete example, without any comments.  It is also available here: <a href="../cantilever.jl"><code>cantilever.jl</code></a>.</p><pre><code class="language-julia hljs">using GXBeam, LinearAlgebra
+plot!(show=true)</code></pre><p><img src="../../assets/cantilever-moment.svg" alt/></p><p>Note that we could have easily performed a nonlinear analysis for this problem by setting <code>linear=false</code>.</p><p>Here&#39;s the complete example, without any comments.  It is also available here: <a href="../cantilever.jl"><code>cantilever.jl</code></a>.</p><pre><code class="language-julia hljs">using GXBeam, LinearAlgebra
 
 nelem = 12
 
@@ -235,4 +232,4 @@ x = [assembly.elements[ielem].x[1] + state.elements[ielem].u[1] for
 M = [state.elements[ielem].M[2] for ielem = 1:length(assembly.elements)]
 plot!(x_a, M_a, label=&quot;Analytical&quot;)
 scatter!(x, M, label=&quot;GXBeam&quot;)
-plot!(show=true)</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../guide/">« Getting Started</a><a class="docs-footer-nextpage" href="../overdetermined/">Overdetermined Beam »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Wednesday 9 March 2022 00:58">Wednesday 9 March 2022</span>. Using Julia version 1.6.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+plot!(show=true)</code></pre><hr/><p><em>This page was generated using <a href="https://github.com/fredrikekre/Literate.jl">Literate.jl</a>.</em></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../guide/">« Getting Started</a><a class="docs-footer-nextpage" href="../overdetermined/">Overdetermined Beam »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.14 on <span class="colophon-date" title="Wednesday 9 March 2022 01:13">Wednesday 9 March 2022</span>. Using Julia version 1.6.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

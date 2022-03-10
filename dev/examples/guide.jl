@@ -1,6 +1,3 @@
-import Pkg
-Pkg.add("GXBeam")
-
 using GXBeam, LinearAlgebra
 
 # straight section of the beam
